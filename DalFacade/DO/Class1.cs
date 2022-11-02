@@ -1,10 +1,18 @@
 ﻿
 namespace DO;
 
-public struct ToyotaCorolla
+public struct Product
 {
-    public int Price { get; set; }
-    public bool Manual { get; set; }
-    public string FinishLevel { get; set; }
-    public string Category { get; set; }
+    private int ID { get; set; }
+    private string Name { get; set; }
+    private int Category { get; set; }
+    private double Price { get; set; }
+    private int InStock { get; set; }
+    
+
+    public override string ToString() => $@"
+        Product ID={ID}: {Name},
+        category - {Category},
+        Price: {Price},
+        Amount in stock: {InStock}";
 }

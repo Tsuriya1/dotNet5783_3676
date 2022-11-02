@@ -1,8 +1,6 @@
-﻿
+﻿namespace DalList;
 
-namespace Dal;
-
-internal class DalHondaCivic
+public class DalOrderItem
 {
 
 }

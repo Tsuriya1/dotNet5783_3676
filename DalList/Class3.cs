@@ -1,7 +1,8 @@
 ﻿
-namespace Dal;
+namespace DalList;
 
-internal class DalToyotaCorolla
+public class DalOrder
 {
 
 }
+

@@ -1,11 +1,23 @@
 ﻿
+using System.Diagnostics;
+
 namespace DO;
 
-public struct SikorskyBlackHawk
+public struct Order
 {
-    public int Price { get; set; }
+    public int ID { get; set; }
+    public string CustumerName { get; set; }
+    public string CustumerEmail { get; set; }
+    public string CustumerAdress { get; set; }
+    public DateTime OrderDate { get; set; }
+    public DateTime DeliveryDate { get; set; }
+    public DateTime ShipDate { get; set; }
 
-    public int Blades { get; set; }
-    public int FuelTank { get; set; }
-    public string Category { get; set; }
+    public override string ToString() => $@"
+        CustumerName: {CustumerName} ,
+        CustumerEmail: {CustumerEmail},
+        CustumerAdress: {CustumerAdress},
+        OrderDate: {OrderDate},
+        DeliveryDate: {DeliveryDate},
+        ShipDate: {ShipDate}";
 }
