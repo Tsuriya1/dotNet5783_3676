@@ -16,4 +16,10 @@
     <ProjectReference Include="..\DalFacade\DalFacade.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <None Remove="Dal\" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Dal\" />
+  </ItemGroup>
 </Project>
