@@ -60,7 +60,10 @@ public class DalOrderItem
             }
         }
 
-
+        if(count == 0)
+        {
+            throw new Exception("order not found");
+        }
         DalFacade.DO.OrderItem[] orderItems = new DalFacade.DO.OrderItem[count];
         int inx = 0;
         for (int i = 0; i < count; i++)
