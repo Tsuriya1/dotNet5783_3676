@@ -103,15 +103,15 @@ internal static class DataSource
 
 
         }
-
+        Random rnd = new Random();
         for (int i = 0; i < numOrders * 0.8; i++)
         {
-            orders[i].ShipDate = orders[i].OrderDate+ new TimeSpan(48, 0, 0);
+            orders[i].ShipDate = orders[i].OrderDate+ new TimeSpan(rnd.Next(1,48), 0, 0);
         }
 
         for (int i = 0; i < numOrders * 0.8*0.6; i++)
         {
-            orders[i].DeliveryDate = orders[i].ShipDate+ new TimeSpan(48, 0, 0);
+            orders[i].DeliveryDate = orders[i].ShipDate+ new TimeSpan(rnd.Next(1, 48), 0, 0);
         }
 
         for(int i = 0; i < 20; i++)

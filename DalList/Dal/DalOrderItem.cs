@@ -6,7 +6,7 @@ public class DalOrderItem
     {
         orderItem.ID = Dal.DataSource.Config.getOrderItemId();
         Dal.DataSource.ordersItemList[Dal.DataSource.Config.orderItemInx] = orderItem;
-        Dal.DataSource.Config.orderInx++;
+        Dal.DataSource.Config.orderItemInx++;
         return orderItem.ID;
     }
 
@@ -66,7 +66,7 @@ public class DalOrderItem
         }
         DalFacade.DO.OrderItem[] orderItems = new DalFacade.DO.OrderItem[count];
         int inx = 0;
-        for (int i = 0; i < count; i++)
+        for (int i = 0; i < Dal.DataSource.Config.orderItemInx; i++)
         {
             if (Dal.DataSource.ordersItemList[i].OrderId == order.ID)
             {

@@ -431,10 +431,9 @@ namespace Dal
                 DalFacade.DO.Order[] orders = dalOrder.get();
                 foreach (DalFacade.DO.Order o in orders)
                 {
-                    if (o.CustumerName != null)
-                    {
-                        Console.WriteLine(o);
-                    }
+                    Console.WriteLine(o);
+
+                    
                 }
 
             }
@@ -678,7 +677,7 @@ namespace Dal
             string option = Console.ReadLine();
             if (option == "a")
             {
-                aOrder();
+                aOrderItem();
             }
             else if (option == "b")
             {
