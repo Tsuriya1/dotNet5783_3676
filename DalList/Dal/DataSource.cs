@@ -124,7 +124,7 @@ internal static class DataSource
     static private void createOrdersItem()
     {
         int firstId = 1;
-        int numoforderItems = 40;
+        int numoforderItems = 60;
         for (int i = 0; i < numoforderItems / 2; i++)
         {
             DalFacade.DO.OrderItem orderItems = new DalFacade.DO.OrderItem();
