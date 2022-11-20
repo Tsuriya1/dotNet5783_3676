@@ -1,14 +1,21 @@
 ﻿using System.Diagnostics;
 using DalFacade.DO;
-
 namespace Dal;
 
+
+//namespace Dal; System.Collections.Generic;
 internal static class DataSource
 {
     static internal int readOnly;
-    static internal DalFacade.DO.Order[] ordersList = new DalFacade.DO.Order[100];
-    static internal DalFacade.DO.OrderItem[] ordersItemList = new DalFacade.DO.OrderItem[200];
-    static internal DalFacade.DO.Product[] productList = new DalFacade.DO.Product[50];
+
+    static internal List<DalFacade.DO.Order> orderList;
+    //static internal DalFacade.DO.Order[] ordersList = new DalFacade.DO.Order[100];
+
+    static internal List<DalFacade.DO.OrderItem> orderItemList = new List<DalFacade.DO.OrderItem>();
+    //static internal DalFacade.DO.OrderItem[] ordersItemList = new DalFacade.DO.OrderItem[200];
+
+    static internal List<DalFacade.DO.Product> productList;
+    //static internal DalFacade.DO.Product[] productList = new DalFacade.DO.Product[50];
 
     internal static class Config{
         static internal int orderInx = 0;

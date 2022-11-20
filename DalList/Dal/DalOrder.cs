@@ -5,15 +5,16 @@ public class DalOrder
     public int add(DalFacade.DO.Order order)
     {
         order.ID = Dal.DataSource.Config.getOrderId();
-        Dal.DataSource.ordersList[Dal.DataSource.Config.orderInx] = order;
+        DataSource.orderList.Add(order);
+        //DataSource.ordersList[Dal.DataSource.Config.orderInx] = order;
         Dal.DataSource.Config.orderInx++;
         return order.ID;
     }
 
     public DalFacade.DO.Order get(int ID)
     {
-
-        for (int i = 0; i < Dal.DataSource.Config.orderInx; i++)
+        //int len = DataSource.orderLis
+        for (int i = 0; i < DataSource.Config.orderInx; i++)
         {
             if(Dal.DataSource.ordersList[i].ID == ID)
             {
