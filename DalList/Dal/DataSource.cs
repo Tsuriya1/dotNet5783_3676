@@ -8,7 +8,7 @@ internal static class DataSource
 {
     static internal int readOnly;
 
-    static internal List<DalFacade.DO.Order> orderList;
+    static internal List<DalFacade.DO.Order> ordersList;
     //static internal DalFacade.DO.Order[] ordersList = new DalFacade.DO.Order[100];
 
     static internal List<DalFacade.DO.OrderItem> orderItemList = new List<DalFacade.DO.OrderItem>();
@@ -18,9 +18,9 @@ internal static class DataSource
     //static internal DalFacade.DO.Product[] productList = new DalFacade.DO.Product[50];
 
     internal static class Config{
-        static internal int orderInx = 0;
-        static internal int productInx = 0;
-        static internal int orderItemInx = 0;
+        //static internal int orderInx = 0;
+        //static internal int productInx = 0;
+        //static internal int orderItemInx = 0;
         static private int currentOrderID = 0;
         static private int currentOrderItemID = 0;
 
@@ -87,8 +87,8 @@ internal static class DataSource
     static private void createOrders()
     {
         int firstId = 1;
-        string[] names = {"avi","dani","lior","roni","reut","tal","ron","ben","david","dan","yafa","kai","shon","nil","lili","bar","oz","or","dov","nir" };
-        string[] Emails = { "avi@gmail.com", "dani@gmail.com", "lior@gmail.com", "roni@gmail.com", "reut@gmail.com", "tal@gmail.com", "ron@gmail.com", "ben@gmail.com", "david@gmail.com", "dan@gmail.com", "yafa@gmail.com", "kai@gmail.com", "shon@gmail.com", "nil@gmail.com", "lili@gmail.com", "bar@gmail.com", "oz@gmail.com", "or@gmail.com", "dov@gmail.com", "nir@gmail.com" };
+        string[] names = {"avi","dani","lior","roni","reut","tal","ron","ben","david","dan","yafa","kai","shon","nir","lili","bar","oz","or","dov","nir" };
+        string[] Emails = { "avi@gmail.com", "dani@gmail.com", "lior@gmail.com", "roni@gmail.com", "reut@gmail.com", "tal@gmail.com", "ron@gmail.com", "ben@gmail.com", "david@gmail.com", "dan@gmail.com", "yafa@gmail.com", "kai@gmail.com", "shon@gmail.com", "nir@gmail.com", "lili@gmail.com", "bar@gmail.com", "oz@gmail.com", "or@gmail.com", "dov@gmail.com", "nir@gmail.com" };
     
         string[] adress = {"tel aviv","jerusalem","modiin","jaffa","yavne"};
         DateTime orderDate = new DateTime(2021, 5, 1, 8, 30, 52);

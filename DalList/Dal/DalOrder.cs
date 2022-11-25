@@ -5,18 +5,18 @@ public class DalOrder
     public int add(DalFacade.DO.Order order)
     {
         order.ID = Dal.DataSource.Config.getOrderId();
-        DataSource.orderList.Add(order);
+        DataSource.ordersList.Add(order);
         //DataSource.ordersList[Dal.DataSource.Config.orderInx] = order;
-        Dal.DataSource.Config.orderInx++;
+        //Dal.DataSource.Config.orderInx++;
         return order.ID;
     }
 
     public DalFacade.DO.Order get(int ID)
     {
-        //int len = DataSource.orderLis
-        for (int i = 0; i < DataSource.Config.orderInx; i++)
+        int len = DataSource.ordersList.Count;
+        for (int i = 0; i < len; i++)
         {
-            if(Dal.DataSource.ordersList[i].ID == ID)
+            if(DataSource.ordersList[i].ID == ID)
             {
                 return Dal.DataSource.ordersList[i];
             } 
@@ -24,12 +24,12 @@ public class DalOrder
         throw new Exception("order not found");
     }
 
-    public DalFacade.DO.Order[] get()
+    public List<DalFacade.DO.Order> get()
     {
-        DalFacade.DO.Order[] orders = new DalFacade.DO.Order[Dal.DataSource.Config.orderInx];
-        for (int i = 0; i < Dal.DataSource.Config.orderInx; i++)
+        List<DalFacade.DO.Order> orders = new List<DalFacade.DO.Order>();
+        for (int i = 0; i < DataSource.ordersList.Count; i++)
         {
-            orders[i] = Dal.DataSource.ordersList[i];
+            orders.Add(Dal.DataSource.ordersList[i]);
         }
         return orders;
 
@@ -37,15 +37,11 @@ public class DalOrder
 
     public void delete(int ID)
     {
-        for (int i = 0; i < Dal.DataSource.Config.orderInx; i++)
+        for (int i = 0; i < DataSource.ordersList.Count; i++)
         {
-            if (Dal.DataSource.ordersList[i].ID == ID)
+            if (DataSource.ordersList[i].ID == ID)
             {
-                for(int j = i+1; j< Dal.DataSource.Config.orderInx; j++)
-                {
-                    Dal.DataSource.ordersList[j - 1] = Dal.DataSource.ordersList[j];
-                }
-                Dal.DataSource.Config.orderInx--;
+                DataSource.ordersList.Remove(DataSource.ordersList[i]);
                 return;
             }
         }
@@ -55,7 +51,7 @@ public class DalOrder
 
     public void update(DalFacade.DO.Order order)
     {
-        for (int i = 0; i < Dal.DataSource.Config.orderInx; i++)
+        for (int i = 0; i < DataSource.ordersList.Count; i++)
         {
             if (Dal.DataSource.ordersList[i].ID == order.ID)
             {

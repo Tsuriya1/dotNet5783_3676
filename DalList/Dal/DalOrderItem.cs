@@ -5,19 +5,18 @@ public class DalOrderItem
     public int add(DalFacade.DO.OrderItem orderItem)
     {
         orderItem.ID = Dal.DataSource.Config.getOrderItemId();
-        Dal.DataSource.ordersItemList[Dal.DataSource.Config.orderItemInx] = orderItem;
-        Dal.DataSource.Config.orderItemInx++;
+        DataSource.orderItemList.Add(orderItem);
         return orderItem.ID;
     }
 
     public DalFacade.DO.OrderItem get(int ID)
     {
 
-        for (int i = 0; i < Dal.DataSource.Config.orderItemInx; i++)
+        for (int i = 0; i < DataSource.orderItemList.Count; i++)
         {
-            if (Dal.DataSource.ordersItemList[i].ID == ID)
+            if (DataSource.orderItemList[i].ID == ID)
             {
-                return Dal.DataSource.ordersItemList[i];
+                return Dal.DataSource.orderItemList[i];
             }
         }
         throw new Exception("orderItem not found");
@@ -26,22 +25,22 @@ public class DalOrderItem
     public DalFacade.DO.OrderItem get(DalFacade.DO.Product product, DalFacade.DO.Order order)
     {
 
-        for (int i = 0; i < Dal.DataSource.Config.orderItemInx; i++)
+        for (int i = 0; i < Dal.DataSource.orderItemList.Count; i++)
         {
-            if ((Dal.DataSource.ordersItemList[i].ProductId == product.ID)&&(Dal.DataSource.ordersItemList[i].OrderId == order.ID))
+            if ((Dal.DataSource.orderItemList[i].ProductId == product.ID)&&(Dal.DataSource.orderItemList[i].OrderId == order.ID))
             {
-                return Dal.DataSource.ordersItemList[i];
+                return Dal.DataSource.orderItemList[i];
             }
         }
         throw new Exception("orderItem not found");
     }
 
-    public DalFacade.DO.OrderItem[] get()
+    public List<DalFacade.DO.OrderItem> get()
     {
-        DalFacade.DO.OrderItem[] orderItems = new DalFacade.DO.OrderItem[Dal.DataSource.Config.orderItemInx];
-        for (int i = 0; i < Dal.DataSource.Config.orderItemInx; i++)
+        List<DalFacade.DO.OrderItem> orderItems = new List<DalFacade.DO.OrderItem>();
+        for (int i = 0; i < Dal.DataSource.orderItemList.Count; i++)
         {
-            orderItems[i] = Dal.DataSource.ordersItemList[i];
+            orderItems.Insert(i, DataSource.orderItemList[i]);
         }
         return orderItems;
 
