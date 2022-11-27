@@ -1,6 +1,8 @@
 ﻿namespace Dal;
+using DalApi;
+using DO;
 
-public class DalOrder
+internal class DalOrder : IOrder
 {
     public int add(DalFacade.DO.Order order)
     {

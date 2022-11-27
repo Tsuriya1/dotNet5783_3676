@@ -1,6 +1,8 @@
 ﻿namespace Dal;
+using DalApi;
+using DO;
 
-public class DalProduct
+internal class DalProduct : IProduct
 {
     public int add(DalFacade.DO.Product product)
     {

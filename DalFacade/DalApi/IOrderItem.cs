@@ -1,5 +1,5 @@
 ﻿using DalFacade.DO;
-namespace DalApi;
+using DalApi;
 
 public interface IOrderItem : ICrud<OrderItem>
 {

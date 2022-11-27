@@ -1,13 +1,13 @@
 ﻿//using System;
 //namespace DalFacade.DalApi
 using DalFacade.DO;
-namespace DalApi;
+using DalApi;
 //{
 public interface IDal
 {
     IOrder Order { get; }
     IOrderItem OrderItem { get; }
     Iproduct Product { get; } 
-}
+}  
 //}
 

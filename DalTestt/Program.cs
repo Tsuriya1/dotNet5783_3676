@@ -228,7 +228,7 @@ namespace Dal
                 }
             }else if (option == "c")
             {
-                DalFacade.DO.Product[] products = dalProduct.get();
+                List<DalFacade.DO.Product> products = dalProduct.get();
                 foreach(DalFacade.DO.Product p in products)
                 {
                     Console.WriteLine(p);
@@ -435,6 +435,7 @@ namespace Dal
 
                     
                 }
+
 
             }
             else if (option == "d")
