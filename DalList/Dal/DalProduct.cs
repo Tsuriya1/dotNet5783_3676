@@ -4,22 +4,21 @@ public class DalProduct
 {
     public int add(DalFacade.DO.Product product)
     {
-        for (int i=0;i< Dal.DataSource.Config.productInx; i++)
+        for (int i=0;i< Dal.DataSource.productList.Count; i++)
         {
             if (Dal.DataSource.productList[i].ID == product.ID)
             {
                 throw new Exception("product ID already exists");
             }
         }
-        Dal.DataSource.productList[Dal.DataSource.Config.productInx] = product;
-        Dal.DataSource.Config.productInx++;
+        Dal.DataSource.productList.Add(product);
         return product.ID;
     }
 
     public DalFacade.DO.Product get(int ID)
     {
 
-        for (int i = 0; i < Dal.DataSource.Config.productInx; i++)
+        for (int i = 0; i < Dal.DataSource.productList.Count; i++)
         {
             if (Dal.DataSource.productList[i].ID == ID)
             {
@@ -29,10 +28,10 @@ public class DalProduct
         throw new Exception("product not found");
     }
 
-    public DalFacade.DO.Product[] get()
+    public List<DalFacade.DO.Product> get()
     {
-        DalFacade.DO.Product[] products = new DalFacade.DO.Product[Dal.DataSource.Config.productInx];
-        for (int i = 0; i < Dal.DataSource.Config.productInx; i++)
+        List<DalFacade.DO.Product> products = new List<DalFacade.DO.Product>();
+        for (int i = 0; i < Dal.DataSource.productList.Count; i++)
         {
             products[i] = Dal.DataSource.productList[i];
         }
@@ -42,15 +41,11 @@ public class DalProduct
 
     public void delete(int ID)
     {
-        for (int i = 0; i < Dal.DataSource.Config.productInx; i++)
+        for (int i = 0; i < Dal.DataSource.productList.Count; i++)
         {
             if (Dal.DataSource.productList[i].ID == ID)
             {
-                for (int j = i + 1; j < Dal.DataSource.Config.productInx; j++)
-                {
-                    Dal.DataSource.productList[j - 1] = Dal.DataSource.productList[j];
-                }
-                Dal.DataSource.Config.productInx--;
+                DataSource.productList.Remove(DataSource.productList[i]);
                 return;
             }
         }
@@ -60,11 +55,11 @@ public class DalProduct
 
     public void update(DalFacade.DO.Product product)
     {
-        for (int i = 0; i < Dal.DataSource.Config.productInx; i++)
+        for (int i = 0; i < Dal.DataSource.productList.Count; i++)
         {
             if (Dal.DataSource.productList[i].ID == product.ID)
             {
-                Dal.DataSource.productList[i] = product;
+                DataSource.productList.Insert(i, product);
                 return;
             }
         }

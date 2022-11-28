@@ -55,7 +55,8 @@ public class DalOrder
         {
             if (Dal.DataSource.ordersList[i].ID == order.ID)
             {
-                Dal.DataSource.ordersList[i] = order;
+                DataSource.ordersList.Insert(i, order);
+           
                 return;
             }
         }
