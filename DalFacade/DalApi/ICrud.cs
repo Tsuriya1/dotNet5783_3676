@@ -1,8 +1,6 @@
 using DalFacade.DO;
 //using System.ComponentModel;
 
-namespace DalApi;
-
 public interface ICrud<T>
 {
 	public int Add(T obj);

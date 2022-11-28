@@ -1,6 +1,9 @@
 ﻿using System.Diagnostics;
 using DalFacade.DO;
+using DalApi;
+
 namespace Dal;
+
 
 
 //namespace Dal; System.Collections.Generic;
