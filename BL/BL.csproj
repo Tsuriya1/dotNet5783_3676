@@ -16,4 +16,14 @@
     <ProjectReference Include="..\DalList\DalList.csproj" />
     <ProjectReference Include="..\DalFacade\DalFacade.csproj" />
   </ItemGroup>
+  <ItemGroup>
+    <None Remove="BO\" />
+    <None Remove="BlApi\" />
+    <None Remove="Bllmplementation\" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="BO\" />
+    <Folder Include="BlApi\" />
+    <Folder Include="Bllmplementation\" />
+  </ItemGroup>
 </Project>
