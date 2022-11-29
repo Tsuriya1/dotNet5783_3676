@@ -22,7 +22,6 @@
     <None Remove="Bllmplementation\" />
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="BO\" />
     <Folder Include="BlApi\" />
     <Folder Include="Bllmplementation\" />
   </ItemGroup>
