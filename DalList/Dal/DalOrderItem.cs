@@ -1,6 +1,6 @@
 ﻿namespace Dal;
-using DalApi;
-using DO;
+using DalFacade.DalApi;
+using DalFacade.DO;
 
 internal class DalOrderItem : IOrderItem
 {
@@ -24,12 +24,12 @@ internal class DalOrderItem : IOrderItem
         throw new Exception("orderItem not found");
     }
 
-    public DalFacade.DO.OrderItem get(DalFacade.DO.Product product, DalFacade.DO.Order order)
+    public DalFacade.DO.OrderItem get(int productId, int orderId)
     {
 
         for (int i = 0; i < Dal.DataSource.orderItemList.Count; i++)
         {
-            if ((Dal.DataSource.orderItemList[i].ProductId == product.ID)&&(Dal.DataSource.orderItemList[i].OrderId == order.ID))
+            if ((Dal.DataSource.orderItemList[i].ProductId == productId)&&(Dal.DataSource.orderItemList[i].OrderId == orderId))
             {
                 return Dal.DataSource.orderItemList[i];
             }
@@ -37,7 +37,7 @@ internal class DalOrderItem : IOrderItem
         throw new Exception("orderItem not found");
     }
 
-    public List<DalFacade.DO.OrderItem> get()
+    public IEnumerable<DalFacade.DO.OrderItem> get()
     {
         List<DalFacade.DO.OrderItem> orderItems = new List<DalFacade.DO.OrderItem>();
         for (int i = 0; i < Dal.DataSource.orderItemList.Count; i++)
@@ -49,7 +49,7 @@ internal class DalOrderItem : IOrderItem
     }
 
 
-    public DalFacade.DO.OrderItem[] get(DalFacade.DO.Order order)
+    public IEnumerable< OrderItem> get(DalFacade.DO.Order order)
     {
         int count = 0;
         for (int i = 0; i < Dal.DataSource.orderItemList.Count; i++)
@@ -105,4 +105,6 @@ internal class DalOrderItem : IOrderItem
         }
         throw new Exception("orderItem not found");
     }
+    
+
 }

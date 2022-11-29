@@ -6,10 +6,7 @@ namespace Dal
 {
     public class testClass
     {
-
-        private static DalProduct dalProduct = new DalProduct();
-        private static DalOrder dalOrder = new DalOrder();
-        private static DalOrderItem dalOrderItem = new DalOrderItem();
+        private static DalList dalList = new DalList();
 
         private static int convertIntPos(string num)
         {
@@ -112,7 +109,7 @@ namespace Dal
             try
             {
 
-                Console.WriteLine(dalProduct.add(product));
+                Console.WriteLine(dalList.Product.add(product));
             }
             catch (Exception e)
             {
@@ -185,7 +182,7 @@ namespace Dal
             try
             {
 
-                dalProduct.update(product);
+                dalList.Product.update(product);
             }
             catch (Exception e)
             {
@@ -220,7 +217,7 @@ namespace Dal
                     {
                         return;
                     }
-                    Console.WriteLine(dalProduct.get(ID));
+                    Console.WriteLine(dalList.Product.get(ID));
                 }
                 catch (Exception e)
                 {
@@ -228,7 +225,7 @@ namespace Dal
                 }
             }else if (option == "c")
             {
-                List<DalFacade.DO.Product> products = dalProduct.get();
+                IEnumerable<DalFacade.DO.Product> products = dalList.Product.get();
                 foreach(DalFacade.DO.Product p in products)
                 {
                     Console.WriteLine(p);
@@ -245,7 +242,7 @@ namespace Dal
                     {
                         return;
                     }
-                    Console.WriteLine(dalProduct.get(ID));
+                    Console.WriteLine(dalList.Product.get(ID));
                     dProduct(ID);
 
 
@@ -265,7 +262,7 @@ namespace Dal
                     {
                         return;
                     }
-                    dalProduct.delete(ID);
+                    dalList.Product.delete(ID);
                 }
                 catch (Exception e)
                 {
@@ -349,7 +346,7 @@ namespace Dal
                 return;
             }
 
-            Console.WriteLine(dalOrder.add(order));
+            Console.WriteLine(dalList.Order.add(order));
         }
 
 
@@ -394,7 +391,7 @@ namespace Dal
                 Console.WriteLine(e);
             }
 
-            dalOrder.update(order);
+            dalList.Order.update(order);
         }
 
         private static void actionOrder()
@@ -419,7 +416,7 @@ namespace Dal
                     {
                         return;
                     }
-                    Console.WriteLine(dalOrder.get(ID));
+                    Console.WriteLine(dalList.Order.get(ID));
                 }
                 catch (Exception e)
                 {
@@ -428,7 +425,7 @@ namespace Dal
             }
             else if (option == "c")
             {
-                DalFacade.DO.Order[] orders = dalOrder.get();
+                IEnumerable< DalFacade.DO.Order> orders = dalList.Order.get();
                 foreach (DalFacade.DO.Order o in orders)
                 {
                     Console.WriteLine(o);
@@ -449,7 +446,7 @@ namespace Dal
                     {
                         return;
                     }
-                    Console.WriteLine(dalOrder.get(ID));
+                    Console.WriteLine(dalList.Order.get(ID));
                     dOrder(ID);
 
 
@@ -469,7 +466,7 @@ namespace Dal
                     {
                         return;
                     }
-                    dalOrder.delete(ID);
+                    dalList.Order.delete(ID);
                 }
                 catch (Exception e)
                 {
@@ -500,7 +497,7 @@ namespace Dal
             DalFacade.DO.Product product;
             try
             {
-                product =  dalProduct.get(productID);
+                product =  dalList.Product.get(productID);
 
             }
             catch (Exception e)
@@ -521,7 +518,8 @@ namespace Dal
             }
             try
             {
-                dalOrder.get(orderID);
+
+                dalList.Order.get(orderID);
                 orderItem.OrderId = orderID;
 
             }
@@ -550,7 +548,7 @@ namespace Dal
             {
                 try
                 {
-                    dalProduct.delete(product.ID);
+                    dalList.Product.delete(product.ID);
                 }
                 catch
                 {
@@ -559,7 +557,7 @@ namespace Dal
             }
             try {
 
-                dalProduct.update(product);
+                dalList.Product.update(product);
             }
             catch (Exception e)
             {
@@ -567,7 +565,7 @@ namespace Dal
 
             }
 
-            dalOrderItem.add(orderItem);
+            dalList.OrderItem.add(orderItem);
 
 
         }
@@ -588,7 +586,7 @@ namespace Dal
             DalFacade.DO.Product product;
             try
             {
-                product = dalProduct.get(productID);
+                product = dalList.Product.get(productID);
 
             }
             catch (Exception e)
@@ -609,7 +607,7 @@ namespace Dal
             }
             try
             {
-                dalOrder.get(orderID);
+                dalList.Order.get(orderID);
                 orderItem.OrderId = orderID;
 
             }
@@ -640,7 +638,7 @@ namespace Dal
             {
                 try
                 {
-                    dalProduct.delete(product.ID);
+                    dalList.Product.delete(product.ID);
                 }
                 catch
                 {
@@ -650,7 +648,7 @@ namespace Dal
             try
             {
 
-                dalProduct.update(product);
+                dalList.Product.update(product);
             }
             catch (Exception e)
             {
@@ -658,7 +656,7 @@ namespace Dal
 
             }
 
-            dalOrderItem.update(orderItem);
+            dalList.OrderItem.update(orderItem);
 
 
         }
@@ -691,7 +689,7 @@ namespace Dal
                     {
                         return;
                     }
-                    Console.WriteLine(dalOrderItem.get(ID));
+                    Console.WriteLine(dalList.OrderItem.get(ID));
                 }
                 catch (Exception e)
                 {
@@ -700,7 +698,7 @@ namespace Dal
             }
             else if (option == "c")
             {
-                DalFacade.DO.OrderItem[] orderItems = dalOrderItem.get();
+                IEnumerable< DalFacade.DO.OrderItem> orderItems = dalList.OrderItem.get();
                 foreach (DalFacade.DO.OrderItem o in orderItems)
                 {
                     Console.WriteLine(o);
@@ -718,7 +716,7 @@ namespace Dal
                     {
                         return;
                     }
-                    DalFacade.DO.OrderItem orderItem = dalOrderItem.get(ID);
+                    DalFacade.DO.OrderItem orderItem = dalList.OrderItem.get(ID);
                     Console.WriteLine(orderItem);
                     dOrderItem(ID,orderItem);
                 }
@@ -739,7 +737,7 @@ namespace Dal
                     {
                         return;
                     }
-                    dalOrderItem.delete(ID);
+                    dalList.OrderItem.delete(ID);
                 }
                 catch (Exception e)
                 {
@@ -765,9 +763,9 @@ namespace Dal
                 }
                 try
                 {
-                    DalFacade.DO.Product product = dalProduct.get(productID);
-                    DalFacade.DO.Order order = dalOrder.get(orderID);
-                    Console.WriteLine(dalOrderItem.get(product, order));
+                    DalFacade.DO.Product product = dalList.Product.get(productID);
+                    DalFacade.DO.Order order = dalList.Order.get(orderID);
+                    Console.WriteLine(dalList.OrderItem.get(product.ID, order.ID));
                 }
                 catch (Exception e)
                 {
@@ -786,8 +784,8 @@ namespace Dal
                 }
                 try
                 {
-                    DalFacade.DO.Order order = dalOrder.get(orderID);
-                    DalFacade.DO.OrderItem[] orderItems = dalOrderItem.get(order);
+                    Order order = dalList.Order.get(orderID);
+                    IEnumerable<DalFacade.DO.OrderItem> orderItems = dalList.OrderItem.get(order);
                     foreach (DalFacade.DO.OrderItem o in orderItems)
                     {
                         Console.WriteLine(o);

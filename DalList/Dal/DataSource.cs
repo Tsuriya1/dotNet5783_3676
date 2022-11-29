@@ -1,6 +1,6 @@
 ﻿using System.Diagnostics;
 using DalFacade.DO;
-using DalApi;
+using DalFacade.DalApi;
 
 namespace Dal;
 

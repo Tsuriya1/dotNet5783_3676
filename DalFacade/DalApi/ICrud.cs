@@ -3,9 +3,9 @@ using DalFacade.DO;
 
 public interface ICrud<T>
 {
-	public int Add(T obj);
-	public void Delete(int ID);
-	public void Update(T obj);
-	public T Get(int ID);
+	public int add(T obj);
+	public void delete(int ID);
+	public void update(T obj);
+	public T get(int ID);
     public IEnumerable<T> get();
 }

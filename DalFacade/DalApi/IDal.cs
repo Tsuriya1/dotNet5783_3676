@@ -1,7 +1,7 @@
 ﻿//using System;
 //namespace DalFacade.DalApi
 using DalFacade.DO;
-using DalApi;
+using DalFacade.DalApi;
 //{
 public interface IDal
 {

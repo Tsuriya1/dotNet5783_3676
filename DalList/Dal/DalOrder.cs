@@ -1,7 +1,8 @@
 ﻿namespace Dal;
-using DalApi;
-using DO;
 
+using System.Collections.Generic;
+using DalFacade.DalApi;
+using DalFacade.DO;
 internal class DalOrder : IOrder
 {
     public int add(DalFacade.DO.Order order)
@@ -26,7 +27,7 @@ internal class DalOrder : IOrder
         throw new Exception("order not found");
     }
 
-    public List<DalFacade.DO.Order> get()
+    public IEnumerable<DalFacade.DO.Order> get()
     {
         List<DalFacade.DO.Order> orders = new List<DalFacade.DO.Order>();
         for (int i = 0; i < DataSource.ordersList.Count; i++)
@@ -64,5 +65,6 @@ internal class DalOrder : IOrder
         }
         throw new Exception("order not found");
     }
+
 }
 

@@ -1,8 +1,9 @@
-﻿namespace Dal;
-using DalApi;
-using DO;
+﻿using System.Collections.Generic;
+using DalFacade.DalApi;
+using DalFacade.DO;
+namespace Dal;
 
-internal class DalProduct : IProduct
+internal class DalProduct : Iproduct
 {
     public int add(DalFacade.DO.Product product)
     {
@@ -30,7 +31,7 @@ internal class DalProduct : IProduct
         throw new Exception("product not found");
     }
 
-    public List<DalFacade.DO.Product> get()
+    public IEnumerable<DalFacade.DO.Product> get()
     {
         List<DalFacade.DO.Product> products = new List<DalFacade.DO.Product>();
         for (int i = 0; i < Dal.DataSource.productList.Count; i++)
