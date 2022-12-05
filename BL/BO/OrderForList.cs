@@ -6,21 +6,19 @@ using System.Threading.Tasks;
 
 namespace BO
 {
-    public struct OrderItem
+    public struct OrderForList
     {
         public int ID { get; set; }
-        public string Name { get; set; }
-        public int ProductId { get; set; }
-        public double Price { get; set; }
-        public int Amount { get; set; }
+        public string CustomerName { get; set; }
+        public OrderStatus status { get; set; }
+        public int AmountOfItems { get; set; }
         public double TotalPrice { get; set; }
 
         public override string ToString() => $@"
         ID: {ID},
-        Name: {Name},
-        Product ID: {ProductId} ,
-        Price: {Price},
-        Amount: {Amount},
+        Customer Name: {CustomerName},
+        status: {status},
+        Amount Of Items: {AmountOfItems},
         Total price: {TotalPrice}";
     }
 }

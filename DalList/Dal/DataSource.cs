@@ -21,9 +21,7 @@ internal static class DataSource
     //static internal DalFacade.DO.Product[] productList = new DalFacade.DO.Product[50];
 
     internal static class Config{
-        //static internal int orderInx = 0;
-        //static internal int productInx = 0;
-        //static internal int orderItemInx = 0;
+     
         static private int currentOrderID = 0;
         static private int currentOrderItemID = 0;
 

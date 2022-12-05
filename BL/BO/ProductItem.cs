@@ -7,21 +7,21 @@ using System.Threading.Tasks;
 
 namespace BO
 {
-    public struct Product
+    public struct ProductItem
     {
         public int ID { get; set; }
         public string Name { get; set; }
-        public Category Category { get; set; }
         public double Price { get; set; }
-        public int InStock { get; set; }
-
+        public Category Category { get; set; }
+        public int Amount { get; set; }
+        public bool InStock { get; set; }
 
         public override string ToString() => $@"
-        Product ID={ID}: {Name},
-        category - {Category},
+        ID: {ID},
+        Name: {Name},
         Price: {Price},
-        Amount in stock: {InStock}";
+        Category: {Category},
+        Amount: {Amount},
+        Total In Stock: {InStock}";
     }
 }
-
-

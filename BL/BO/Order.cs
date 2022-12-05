@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace BO
 {
-    public class Order
+    public struct Order
     {
         public int ID { get; set; }
         public string CustumerName { get; set; }

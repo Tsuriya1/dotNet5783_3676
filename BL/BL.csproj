@@ -21,8 +21,4 @@
     <None Remove="BlApi\" />
     <None Remove="Bllmplementation\" />
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="BlApi\" />
-    <Folder Include="Bllmplementation\" />
-  </ItemGroup>
 </Project>
