@@ -106,8 +106,8 @@ namespace Bllmplementation
                 newProduct.InStock = true;
                 }
                 newProduct.Category = ConvertCategory(product);
-            }
                 return newProduct;
+            }
         }
         public void addProduct(BO.Product product)
         {
