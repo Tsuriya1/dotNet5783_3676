@@ -11,17 +11,17 @@ using DalFacade.DalApi;
 
 namespace Bllmplementation
 {
-    internal class Product: BlApi.Iproduct
+    internal class Product : BlApi.Iproduct
     {
         private IDal Dal = new DalList();
         private BO.Category ConvertCategory(DalFacade.DO.Product products)
         {
 
             if (products.Category == DalFacade.DO.Category.Family)
-            if (products.Category == 0)
-            {
-                return BO.Category.Family;
-            }
+                if (products.Category == 0)
+                {
+                    return BO.Category.Family;
+                }
             if (products.Category == DalFacade.DO.Category.Sport)
             {
                 return BO.Category.Sport;
@@ -46,7 +46,7 @@ namespace Bllmplementation
             IEnumerable<DalFacade.DO.Product> products = Dal.Product.get();
             List<ProductForList> forLists = new List<ProductForList>();
             int len = products.Count();
-            for(int i = 0; i < len; i++)
+            for (int i = 0; i < len; i++)
             {
                 ProductForList a = new ProductForList();
                 a.ID = products.ElementAt(i).ID;
@@ -59,14 +59,14 @@ namespace Bllmplementation
         }
         public BO.Product getProductsDetails(int ID)
         {
-            if(ID > 0)
+            if (ID > 0)
             {
-                DalFacade.DO.Product product ;
+                DalFacade.DO.Product product;
                 try
                 {
-                    product =  Dal.Product.get(ID);
+                    product = Dal.Product.get(ID);
                 }
-                catch(Exception e)
+                catch (Exception e)
                 {
                     throw new Exception("product not found");
                 }
@@ -83,7 +83,7 @@ namespace Bllmplementation
                 throw new Exception("Product ID < 0");
             }
         }
-        public ProductItem getProductsDetails(int ID, Cart cart)
+        public ProductItem getProductsDetails(int ID, BO.Cart cart)
         {
             if (ID > 0)
             {
@@ -99,25 +99,27 @@ namespace Bllmplementation
                 ProductItem newProduct = new ProductItem();
                 newProduct.Price = product.Price;
                 newProduct.Name = product.Name;
-                newProduct.ID = product.ID ;
-                newProduct.Amount;
-                if(product.InStock> 0)
+                newProduct.ID = product.ID;
+                // check this:
+                newProduct.Amount = product.InStock;
+                if (product.InStock > 0)
                 {
-                newProduct.InStock = true;
+                    newProduct.InStock = true;
                 }
                 newProduct.Category = ConvertCategory(product);
                 return newProduct;
             }
+            throw new Exception("Product ID < 0");
         }
         public void addProduct(BO.Product product)
         {
             DalFacade.DO.Product newProduct = new DalFacade.DO.Product();
-            if(product.ID >= 100000 && product.Name!=null&&product.Price>0&&product.InStock>=0)
+            if (product.ID >= 100000 && product.Name != null && product.Price > 0 && product.InStock >= 0)
             {
                 newProduct.ID = product.ID;
                 newProduct.Name = product.Name;
                 newProduct.Price = product.Price;
-                newProduct.InStock=product.InStock;
+                newProduct.InStock = product.InStock;
                 newProduct.Category = (DalFacade.DO.Category)(int)product.Category;
                 try
                 {
@@ -137,7 +139,7 @@ namespace Bllmplementation
             {
                 toDelete = Dal.OrderItem.get(productId);
             }
-            catch(Exception e) { Dal.Product.delete(productId); }
+            catch (Exception e) { Dal.Product.delete(productId); }
         }
         public void updateData(BO.Product product)
         {
@@ -162,3 +164,4 @@ namespace Bllmplementation
         }
 
     }
+}

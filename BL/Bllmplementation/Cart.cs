@@ -203,8 +203,6 @@ namespace Bllmplementation
                 }
                 Dal.Product.update(product);
             }
-
-
         }
     }
 
