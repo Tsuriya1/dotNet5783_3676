@@ -28,7 +28,7 @@ internal class DalProduct : Iproduct
                 return Dal.DataSource.productList[i];
             }
         }
-        throw new Exception("product not found");
+        throw new NotFoundException("product not found");
     }
 
     public IEnumerable<DalFacade.DO.Product> get()

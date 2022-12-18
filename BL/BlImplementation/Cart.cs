@@ -9,7 +9,7 @@ using BO;
 using Dal;
 using DalFacade.DO;
 
-namespace Bllmplementation
+namespace BlImplementation
 {
     internal class Cart : Icart
     {
@@ -27,9 +27,13 @@ namespace Bllmplementation
                     //not in stock
                     return cart;
                 }
-
+                int maxId = -1;
                 for (int i = 0; i < cart.Items.Count; i++)
                 {
+                    if (cart.Items[i].ID > maxId)
+                    {
+                        maxId = cart.Items[i].ID;
+                    }
                     if (cart.Items[i].ProductId == Id)
                     {
                         BO.OrderItem a = new BO.OrderItem();
@@ -55,7 +59,7 @@ namespace Bllmplementation
                 ToAdd.Price = product.Price;
                 ToAdd.Amount = 1;
                 ToAdd.TotalPrice = product.Price;
-                ToAdd.ID=0;
+                ToAdd.ID=maxId+1;
                 cart.Items.Add(ToAdd);
                 cart.TotalPrice+=ToAdd.Price;
                 return cart;

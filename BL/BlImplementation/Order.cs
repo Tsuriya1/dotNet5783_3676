@@ -7,7 +7,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Bllmplementation
+namespace BlImplementation
 {
     internal class Order : BlApi.Iorder
 
@@ -143,9 +143,8 @@ namespace Bllmplementation
             BO.Order BOorder = new BO.Order();
             try
             {
-            BOorder = getOrderDetails(ID);
-            }
-            catch (Exception e)
+                BOorder = getOrderDetails(ID);
+            }catch (Exception e)
             {
                 throw new Exception("order not found");
             }
@@ -153,7 +152,7 @@ namespace Bllmplementation
             orderTracking.ID = BOorder.ID;
             return orderTracking;
         }
-        public Order updateOrder(int ID, int ProductID, int amount)
+        /*public Order updateOrder(int ID, int ProductID, int amount)
         {
             DalFacade.DO.Order orderToUpdate;
             try
@@ -170,6 +169,6 @@ namespace Bllmplementation
             
 
 
-        }
+        }*/
     }
 }

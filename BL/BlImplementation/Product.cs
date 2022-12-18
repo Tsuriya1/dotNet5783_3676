@@ -5,11 +5,9 @@ using System.Text;
 using System.Threading.Tasks;
 using BO;
 using Dal;
-using DalFacade.DO;
-using BlApi;
-using DalFacade.DalApi;
 
-namespace Bllmplementation
+
+namespace BlImplementation
 {
     internal class Product : BlApi.Iproduct
     {
@@ -66,7 +64,7 @@ namespace Bllmplementation
                 {
                     product = Dal.Product.get(ID);
                 }
-                catch (Exception e)
+                catch (DalFacade.DO.NotFoundException e)
                 {
                     throw new Exception("product not found");
                 }
