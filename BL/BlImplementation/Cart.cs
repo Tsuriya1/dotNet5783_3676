@@ -21,55 +21,52 @@ namespace BlImplementation
             try
             {
                 product = Dal.Product.get(Id);
-                //TODO throw exeption
-                if (product.InStock < 1)
+            }
+            catch(DalFacade.DO.NotFoundException e)
+            {
+                throw new BO.NotFoundError("product not found", e);
+            }
+            
+            if (product.InStock < 1)
+            {
+                throw new BO.StockError("the product is out of stock");
+            }
+            int maxId = -1;
+            for (int i = 0; i < cart.Items.Count; i++)
+            {
+                if (cart.Items[i].ID > maxId)
                 {
-                    //not in stock
+                    maxId = cart.Items[i].ID;
+                }
+                if (cart.Items[i].ProductId == Id)
+                {
+                    BO.OrderItem a = new BO.OrderItem();
+                    a.ID = cart.Items[i].ID;
+                    a.ProductId = cart.Items[i].ProductId;
+                    a.Name = cart.Items[i].Name;
+                    a.Price = cart.Items[i].Price;
+                    a.Amount = 1;
+                    a.Amount += cart.Items[i].Amount;
+                    a.TotalPrice = a.Price * a.Amount;
+                    a.TotalPrice = cart.Items[i].TotalPrice + a.TotalPrice;
+                    cart.Items.Remove(cart.Items[i]);
+                    cart.Items.Add(a);
+                    cart.TotalPrice += a.TotalPrice;
                     return cart;
                 }
-                int maxId = -1;
-                for (int i = 0; i < cart.Items.Count; i++)
-                {
-                    if (cart.Items[i].ID > maxId)
-                    {
-                        maxId = cart.Items[i].ID;
-                    }
-                    if (cart.Items[i].ProductId == Id)
-                    {
-                        BO.OrderItem a = new BO.OrderItem();
-                        a.ID = cart.Items[i].ID;
-                        a.ProductId = cart.Items[i].ProductId;
-                        a.Name = cart.Items[i].Name;
-                        a.Price = cart.Items[i].Price;                       
-                        a.Amount = 1;
-                        a.Amount += cart.Items[i].Amount;
-                        a.TotalPrice = a.Price * a.Amount;
-                        a.TotalPrice=cart.Items[i].TotalPrice+a.TotalPrice;
-                        cart.Items.Remove(cart.Items[i]);
-                        cart.Items.Add(a);
-                        cart.TotalPrice += a.TotalPrice;
-                        return cart;
-                    }
-                }
-
-
-                BO.OrderItem ToAdd = new BO.OrderItem();                
-                ToAdd.Name = product.Name;
-                ToAdd.ProductId = product.ID;
-                ToAdd.Price = product.Price;
-                ToAdd.Amount = 1;
-                ToAdd.TotalPrice = product.Price;
-                ToAdd.ID=maxId+1;
-                cart.Items.Add(ToAdd);
-                cart.TotalPrice+=ToAdd.Price;
-                return cart;
-
             }
-            catch (Exception e)
-            {
-                Console.WriteLine(e);
-                return cart;
-            }
+
+
+            BO.OrderItem ToAdd = new BO.OrderItem();
+            ToAdd.Name = product.Name;
+            ToAdd.ProductId = product.ID;
+            ToAdd.Price = product.Price;
+            ToAdd.Amount = 1;
+            ToAdd.TotalPrice = product.Price;
+            ToAdd.ID = maxId + 1;
+            cart.Items.Add(ToAdd);
+            cart.TotalPrice += ToAdd.Price;
+            return cart;
         }
         BO.Cart Icart.Update (BO.Cart cart, int ProductId, int newAmount)
         {
@@ -78,14 +75,13 @@ namespace BlImplementation
             {
                 product = Dal.Product.get(ProductId);
             }
-            catch (Exception e)
+            catch (DalFacade.DO.NotFoundException e)
             {
-                Console.WriteLine(e);
-                return cart;
+                throw new NotFoundError ("product not found",e);
             }
             if (product.InStock < newAmount)
             {
-                throw new Exception("The asked amount is out of stock");
+                throw new StockError ("The asked amount is out of stock");
             }
             for (int i = 0; i < cart.Items.Count; i++)
             {
@@ -115,13 +111,9 @@ namespace BlImplementation
                     return cart;
                 }
             }
-            throw new Exception("order item not found");
+            throw new NotFoundError ("order item not found");
 
 
-        }
-        void Confirm(BO.Cart cart)
-        {
-              
         }
 
 
@@ -147,31 +139,36 @@ namespace BlImplementation
         {
             if (cart.CustomerName == null)
             {
-                throw new Exception("not a valid Customer Name");
+                throw new NotValidValue("not a valid Customer Name");
             }
             if(cart.CustomerAddress == null)
             {
-                throw new Exception("not a valid Customer address");
+                throw new NotValidValue("not a valid Customer address");
             }
             if (!IsValidEmail(cart.CustomerEmail))
             {
-                throw new Exception("not a valid Customer Email address");
+                throw new NotValidValue("not a valid Customer Email address");
             }
         }
         private void checkCart(BO.OrderItem item)
         {
             DalFacade.DO.Product product;
-           
-            product = Dal.Product.get(item.ProductId);
+            try
+            {
+                product = Dal.Product.get(item.ProductId);
+            }
+            catch (DalFacade.DO.NotFoundException e)
+            {
+                throw new BO.NotFoundError("Item not found",e);
+            }
             if (item.Amount <= 0)
             {
-                throw new Exception("items amount is less than zero");
+                throw new BO.StockError("items amount is less than zero");
             }
             if (product.InStock < item.Amount)
             {
-                throw new Exception("Not enough in stock");
+                throw new BO.StockError("Not enough in stock");
             }
-
         }
 
         void Icart.Confirm(BO.Cart cart)

@@ -66,8 +66,10 @@ namespace BlImplementation
                 }
                 catch (DalFacade.DO.NotFoundException e)
                 {
-                    throw new Exception("product not found");
+                    //TODO change to the right one
+                    throw new NotFoundError ("product not found",e);
                 }
+               
                 BO.Product newProduct = new BO.Product();
                 newProduct.ID = product.ID;
                 newProduct.Name = product.Name;
@@ -78,7 +80,7 @@ namespace BlImplementation
             }
             else
             {
-                throw new Exception("Product ID < 0");
+                throw new NotValidValue ("Product ID < 0");
             }
         }
         public ProductItem getProductsDetails(int ID, BO.Cart cart)
@@ -90,9 +92,9 @@ namespace BlImplementation
                 {
                     product = Dal.Product.get(ID);
                 }
-                catch (Exception e)
+                catch (DalFacade.DO.NotFoundException e)  
                 {
-                    throw new Exception("product not found");
+                    throw new NotFoundError ("product not found",e);
                 }
                 ProductItem newProduct = new ProductItem();
                 newProduct.Price = product.Price;
@@ -107,7 +109,7 @@ namespace BlImplementation
                 newProduct.Category = ConvertCategory(product);
                 return newProduct;
             }
-            throw new Exception("Product ID < 0");
+            throw new NotValidValue ("Product ID < 0");
         }
         public void addProduct(BO.Product product)
         {
@@ -123,11 +125,14 @@ namespace BlImplementation
                 {
                     Dal.Product.add(newProduct);
                 }
-                catch (Exception e) { }
+                catch (DalFacade.DO.NotFoundException e)
+                {
+                    throw new BO.NotValidValue("product not found", e);
+                }
             }
             else
             {
-                throw new Exception("one or more of details is invalid");
+                throw new NotValidValue ("one or more of details is invalid");
             }
         }
         public void removeProduct(int productId)
@@ -137,29 +142,42 @@ namespace BlImplementation
             {
                 toDelete = Dal.OrderItem.get(productId);
             }
-            catch (Exception e) { Dal.Product.delete(productId); }
+            catch (DalFacade.DO.NotFoundException e)  
+            {
+                throw new NotFoundError("product not found",e);
+            }
+            Dal.Product.delete(productId);
         }
         public void updateData(BO.Product product)
         {
             DalFacade.DO.Product toUpdate = new DalFacade.DO.Product();
-            if (product.ID >= 100000 && product.Name != null && product.Price > 0 && product.InStock >= 0)
+            if (product.ID >= 100000 && product.Name != null)
             {
-                toUpdate.ID = product.ID;
-                toUpdate.Name = product.Name;
-                toUpdate.Price = product.Price;
-                toUpdate.InStock = product.InStock;
-                toUpdate.Category = (DalFacade.DO.Category)(int)product.Category;
-                try
+                if(product.Price > 0 && product.InStock >= 0)
                 {
-                    Dal.Product.update(toUpdate);
+                    toUpdate.ID = product.ID;
+                    toUpdate.Name = product.Name;
+                    toUpdate.Price = product.Price;
+                    toUpdate.InStock = product.InStock;
+                    toUpdate.Category = (DalFacade.DO.Category)(int)product.Category;
+                    try
+                    {
+                        Dal.Product.update(toUpdate);
+                    }
+                    catch (DalFacade.DO.NotFoundException e) 
+                    {
+                        throw new NotFoundError("product not found update failed", e);
+                    }
                 }
-                catch (Exception e) { }
+                else
+                {
+                    throw new BO.StockError ("the product is out of stock");
+                }
             }
             else
             {
-                throw new Exception("one or more of details is invalid");
+                throw new NotValidValue("one or more of details is invalid");
             }
         }
-
     }
 }

@@ -1,5 +1,4 @@
 ﻿using System.Collections.Generic;
-using DalFacade.DalApi;
 using DalFacade.DO;
 namespace Dal;
 
@@ -11,7 +10,7 @@ internal class DalProduct : Iproduct
         {
             if (Dal.DataSource.productList[i].ID == product.ID)
             {
-                throw new Exception("product ID already exists");
+                throw new DalFacade.DO.DuplicateException ("product ID already exists");
             }
         }
         Dal.DataSource.productList.Add(product);
@@ -28,7 +27,7 @@ internal class DalProduct : Iproduct
                 return Dal.DataSource.productList[i];
             }
         }
-        throw new NotFoundException("product not found");
+        throw new DalFacade.DO.NotFoundException ("product not found");
     }
 
     public IEnumerable<DalFacade.DO.Product> get()
@@ -52,7 +51,7 @@ internal class DalProduct : Iproduct
                 return;
             }
         }
-        throw new Exception("product not found");
+        throw new DalFacade.DO.NotFoundException("product not found");
 
     }
 
@@ -66,6 +65,6 @@ internal class DalProduct : Iproduct
                 return;
             }
         }
-        throw new Exception("product not found");
+        throw new DalFacade.DO.NotFoundException("product not found");
     }
 }

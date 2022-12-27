@@ -1,5 +1,4 @@
 ﻿namespace Dal;
-using DalFacade.DalApi;
 using DalFacade.DO;
 
 internal class DalOrderItem : IOrderItem
@@ -21,7 +20,7 @@ internal class DalOrderItem : IOrderItem
                 return Dal.DataSource.orderItemList[i];
             }
         }
-        throw new Exception("orderItem not found");
+        throw new DalFacade.DO.NotFoundException("orderItem not found");
     }
 
     public DalFacade.DO.OrderItem get(int productId, int orderId)
@@ -34,7 +33,7 @@ internal class DalOrderItem : IOrderItem
                 return Dal.DataSource.orderItemList[i];
             }
         }
-        throw new Exception("orderItem not found");
+        throw new DalFacade.DO.NotFoundException("orderItem not found");
     }
 
     public IEnumerable<DalFacade.DO.OrderItem> get()
@@ -63,7 +62,7 @@ internal class DalOrderItem : IOrderItem
 
         if(count == 0)
         {
-            throw new Exception("order not found");
+            throw new DalFacade.DO.NotFoundException("orderItem not found");
         }
         DalFacade.DO.OrderItem[] orderItems = new DalFacade.DO.OrderItem[count];
         int inx = 0;
@@ -89,7 +88,7 @@ internal class DalOrderItem : IOrderItem
                 return;
             }
         }
-        throw new Exception("orderItem not found");
+        throw new DalFacade.DO.NotFoundException("orderItem not found");
 
     }
 
@@ -103,7 +102,7 @@ internal class DalOrderItem : IOrderItem
                 return;
             }
         }
-        throw new Exception("orderItem not found");
+        throw new DalFacade.DO.NotFoundException("orderItem not found");
     }
     
 

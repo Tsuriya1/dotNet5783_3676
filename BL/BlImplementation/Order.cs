@@ -51,9 +51,9 @@ namespace BlImplementation
                 {
                     order = Dal.Order.get(ID);
                 }
-                catch (Exception e)
+                catch (DalFacade.DO.NotFoundException e)
                 {
-                    throw new Exception("order not found");
+                    throw new NotFoundError("Order not found", e);
                 }
                 BO.Order BOorder = new BO.Order();
                 BOorder.ID = ID;
@@ -74,7 +74,7 @@ namespace BlImplementation
                 BOorder.TotalPrice = totlaPrice;
                 return BOorder;
             }
-            throw new Exception("order Id < 0");
+            throw new NotValidValue("order Id < 0");
         }
         public BO.Order updateShipping(int ID)
         {
@@ -83,9 +83,9 @@ namespace BlImplementation
             {
                 order = Dal.Order.get(ID);  
             }
-            catch(Exception e)
+            catch (DalFacade.DO.NotFoundException e)
             {
-                throw new Exception ("order not found");
+                throw new NotFoundError ("order not found",e);
             }
             if (order.ShipDate > DateTime.Now)
             {
@@ -96,14 +96,14 @@ namespace BlImplementation
                 {
                     Dal.Order.update(order);
                 }
-                catch (Exception e)
+                catch (NotFoundError e)
                 {
-                    throw new Exception("order not found, update failed");
+                    throw new NotFoundError ("order not found, update failed",e);
                 }
                 return BOorder;
 
             }
-                throw new Exception("the order is already shipped");
+                throw new StatusError("the order is already shipped");
         }
         public BO.Order updateSupply(int ID)
         {
@@ -112,9 +112,9 @@ namespace BlImplementation
             {
                 order = Dal.Order.get(ID);
             }
-            catch (Exception e)
+            catch (DalFacade.DO.NotFoundException e)
             {
-                throw new Exception("order not found");
+                throw new NotFoundError ("order not found",e);
             }
             if (order.DeliveryDate < DateTime.Now)
             {
@@ -127,15 +127,15 @@ namespace BlImplementation
                     {
                         Dal.Order.update(order);
                     }
-                    catch (Exception e)
+                    catch (DalFacade.DO.NotFoundException e)
                     {
-                        throw new Exception("order not found, update failed");
+                        throw new NotFoundError ("order not found, update failed",e);
                     }
                     return BOorder;
                 }
-                throw new Exception("the order has already provided");
+                throw new StatusError ("the order has already provided");
             }
-            throw new Exception("the order has not shipped yet");
+            throw new StatusError ("the order has not shipped yet");
         }
         public OrderTracking OrderTrack(int ID)
         {
@@ -144,9 +144,11 @@ namespace BlImplementation
             try
             {
                 BOorder = getOrderDetails(ID);
-            }catch (Exception e)
+            }
+            catch (DalFacade.DO.NotFoundException e)
+
             {
-                throw new Exception("order not found");
+                throw new NotFoundError ("order not found");
             }
             orderTracking.Status = BOorder.Status;
             orderTracking.ID = BOorder.ID;

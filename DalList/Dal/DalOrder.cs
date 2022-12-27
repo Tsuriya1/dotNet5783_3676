@@ -47,8 +47,7 @@ internal class DalOrder : IOrder
                 return;
             }
         }
-        throw new Exception("order not found");
-
+        throw new DalFacade.DO.NotFoundException ("order not found");
     }
 
     public void update(DalFacade.DO.Order order)
@@ -62,7 +61,7 @@ internal class DalOrder : IOrder
                 return;
             }
         }
-        throw new Exception("order not found");
+        throw new DalFacade.DO.NotFoundException("order not found");
     }
 
 }
