@@ -210,6 +210,7 @@ class Program
                 }
                 break;
             case Actions.Update:
+                int y = 0;
                 Console.WriteLine(@"Enter the ID number of the order that you want to update");
                 int.TryParse(Console.ReadLine(), out id);
                 DalFacade.DO.Order oldOrder = dalList.Order.get(id);
