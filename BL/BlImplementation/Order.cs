@@ -1,4 +1,5 @@
-﻿using BO;
+﻿using BlApi;
+using BO;
 using Dal;
 using DalFacade.DO;
 using System;
@@ -13,19 +14,19 @@ namespace BlImplementation
 
     {
         private IDal Dal = new DalList();
-        public IEnumerable<OrderForList> GetOrder()
+        IEnumerable<OrderForList?> Iorder.GetOrder()
         {
 
             IEnumerable<DalFacade.DO.Order> orders = Dal.Order.get();
 
-            List<OrderForList> list_of_ordersForList = new List<OrderForList>();
+            List<OrderForList?> list_of_ordersForList = new List<OrderForList?>();
             foreach (DalFacade.DO.Order order in orders)
             {
 
                 OrderForList orderForList = new OrderForList();
                 orderForList.ID = order.ID;
                 orderForList.CustomerName = order.CustumerName;
-                IEnumerable<DalFacade.DO.OrderItem> temp = Dal.OrderItem.get(order);
+                IEnumerable<DalFacade.DO.OrderItem?> temp = Dal.OrderItem.get(order);
                 orderForList.AmountOfItems = temp.Count();
                 orderForList.status = OrderStatus.Confirmed;        // "confirmed" is the default value
                 int sumOfAmount = 0;
@@ -64,7 +65,7 @@ namespace BlImplementation
                 BOorder.Status = OrderStatus.Confirmed;          // "confirmed" is the default value (??)
                 BOorder.DeliveryDate = order.DeliveryDate;
                 BOorder.ShipDate = order.ShipDate;
-                // what about "payment date"? check page 10 of general instructions
+                BOorder.PaymentDate = null;
                 BOorder.Items = Dal.OrderItem.get(order);
                 double totlaPrice = 0; 
                 foreach(DalFacade.DO.OrderItem item in BOorder.Items)
@@ -153,24 +154,6 @@ namespace BlImplementation
             orderTracking.Status = BOorder.Status;
             orderTracking.ID = BOorder.ID;
             return orderTracking;
-        }
-        /*public Order updateOrder(int ID, int ProductID, int amount)
-        {
-            DalFacade.DO.Order orderToUpdate;
-            try
-            {
-                orderToUpdate = Dal.Order.get(ID);
-                BO.Order BOorder = new BO.Order();
-            }
-            catch (Exception e)
-            {
-                throw new Exception("item not found");
-            }
-            for(int i=0; i<orderToUpdate.)
-
-            
-
-
-        }*/
+        }  
     }
 }

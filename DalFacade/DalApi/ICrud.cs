@@ -7,5 +7,6 @@ public interface ICrud<T>
 	public void delete(int ID);
 	public void update(T obj);
 	public T get(int ID);
-    public IEnumerable<T> get();
+	public T getObject(Func<T?, bool>? func);
+	public IEnumerable<T?> get(Func<T?, bool>? func = null);
 }

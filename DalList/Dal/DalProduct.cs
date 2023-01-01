@@ -8,7 +8,7 @@ internal class DalProduct : Iproduct
     {
         for (int i=0;i< Dal.DataSource.productList.Count; i++)
         {
-            if (Dal.DataSource.productList[i].ID == product.ID)
+            if (Dal.DataSource.productList[i].Value.ID == product.ID)
             {
                 throw new DalFacade.DO.DuplicateException ("product ID already exists");
             }
@@ -22,20 +22,53 @@ internal class DalProduct : Iproduct
 
         for (int i = 0; i < Dal.DataSource.productList.Count; i++)
         {
-            if (Dal.DataSource.productList[i].ID == ID)
+            if (Dal.DataSource.productList[i].HasValue)
             {
-                return Dal.DataSource.productList[i];
+                if (Dal.DataSource.productList[i].Value.ID == ID)
+                {
+                    return Dal.DataSource.productList[i].Value;
+                }
             }
+            
         }
         throw new DalFacade.DO.NotFoundException ("product not found");
     }
+    public Product getObject(Func<Product, bool>? func)
+    {
+        for (int i = 0; i < Dal.DataSource.productList.Count; i++)
+        {
+            if (Dal.DataSource.productList[i].HasValue)
+            {
+                if (func(Dal.DataSource.productList[i].Value))
+                {
+                    return Dal.DataSource.productList[i].Value;
+                }
+            }
 
-    public IEnumerable<DalFacade.DO.Product> get()
+        }
+        throw new DalFacade.DO.NotFoundException("product not found");
+    }
+    public IEnumerable<Product> get(Func<Product, bool>? func = null)
     {
         List<DalFacade.DO.Product> products = new List<DalFacade.DO.Product>();
         for (int i = 0; i < Dal.DataSource.productList.Count; i++)
         {
-            products[i] = Dal.DataSource.productList[i];
+            if (!Dal.DataSource.productList[i].HasValue)
+            {
+                continue;
+            }
+            if(func != null)
+            {
+                if (func(Dal.DataSource.productList[i].Value))
+                {
+                    products.Add(Dal.DataSource.productList[i].Value);
+                }
+            }
+            else
+            {
+                products.Add(Dal.DataSource.productList[i].Value);
+            }
+
         }
         return products;
 
@@ -45,7 +78,7 @@ internal class DalProduct : Iproduct
     {
         for (int i = 0; i < Dal.DataSource.productList.Count; i++)
         {
-            if (Dal.DataSource.productList[i].ID == ID)
+            if (Dal.DataSource.productList[i].Value.ID == ID)
             {
                 DataSource.productList.Remove(DataSource.productList[i]);
                 return;
@@ -59,7 +92,7 @@ internal class DalProduct : Iproduct
     {
         for (int i = 0; i < Dal.DataSource.productList.Count; i++)
         {
-            if (Dal.DataSource.productList[i].ID == product.ID)
+            if (Dal.DataSource.productList[i].Value.ID == product.ID)
             {
                 DataSource.productList.Insert(i, product);
                 return;
@@ -67,4 +100,6 @@ internal class DalProduct : Iproduct
         }
         throw new DalFacade.DO.NotFoundException("product not found");
     }
+
+    
 }

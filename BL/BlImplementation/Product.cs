@@ -12,37 +12,40 @@ namespace BlImplementation
     internal class Product : BlApi.Iproduct
     {
         private IDal Dal = new DalList();
-        private BO.Category ConvertCategory(DalFacade.DO.Product products)
+        private BO.Category? ConvertCategory(DalFacade.DO.Product product)
         {
-
-            if (products.Category == DalFacade.DO.Category.Family)
-                if (products.Category == 0)
-                {
-                    return BO.Category.Family;
-                }
-            if (products.Category == DalFacade.DO.Category.Sport)
+            if (product.Category.HasValue)
             {
+                if (product.Category == DalFacade.DO.Category.Family)
+                    if (product.Category == 0)
+                    {
+                        return BO.Category.Family;
+                    }
+                if (product.Category == DalFacade.DO.Category.Sport)
+                {
+                    return BO.Category.Sport;
+                }
+                if (product.Category == DalFacade.DO.Category.Mini)
+                {
+                    return BO.Category.Mini;
+                }
+                if (product.Category == DalFacade.DO.Category.Motorcycle)
+                {
+                    return BO.Category.Motorcycle;
+                }
+                if (product.Category == DalFacade.DO.Category.Exclusive)
+                {
+                    return BO.Category.Exclusive;
+
+                }
                 return BO.Category.Sport;
             }
-            if (products.Category == DalFacade.DO.Category.Mini)
-            {
-                return BO.Category.Mini;
-            }
-            if (products.Category == DalFacade.DO.Category.Motorcycle)
-            {
-                return BO.Category.Motorcycle;
-            }
-            if (products.Category == DalFacade.DO.Category.Exclusive)
-            {
-                return BO.Category.Exclusive;
-
-            }
-            return BO.Category.Sport;
+            return null;   
         }
-        public List<ProductForList> GetProducts()
+        List<ProductForList?> BlApi.Iproduct.GetProducts()
         {
             IEnumerable<DalFacade.DO.Product> products = Dal.Product.get();
-            List<ProductForList> forLists = new List<ProductForList>();
+            List<ProductForList?> forLists = new List<ProductForList?>();
             int len = products.Count();
             for (int i = 0; i < len; i++)
             {
@@ -66,7 +69,6 @@ namespace BlImplementation
                 }
                 catch (DalFacade.DO.NotFoundException e)
                 {
-                    //TODO change to the right one
                     throw new NotFoundError ("product not found",e);
                 }
                
@@ -179,5 +181,8 @@ namespace BlImplementation
                 throw new NotValidValue("one or more of details is invalid");
             }
         }
+
+        
+        
     }
 }

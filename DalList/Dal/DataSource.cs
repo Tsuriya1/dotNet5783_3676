@@ -104,8 +104,8 @@ internal static class DataSource
             orders[i].CustumerEmail = Emails[i];
             orders[i].CustumerAdress = adress[i % 5];
             orders[i].OrderDate = orderDate;
-            orders[i].ShipDate = DateTime.MinValue;
-            orders[i].DeliveryDate = DateTime.MinValue;
+            orders[i].ShipDate = null;
+            orders[i].DeliveryDate = null;
 
 
         }
@@ -135,17 +135,17 @@ internal static class DataSource
         {
             DalFacade.DO.OrderItem orderItems = new DalFacade.DO.OrderItem();
             orderItems.ID = firstId;
-            orderItems.OrderId = ordersList[i].ID;
-            orderItems.ProductId = productList[0].ID;
-            orderItems.Price = productList[0].Price;
+            orderItems.OrderId = ordersList[i].Value.ID;
+            orderItems.ProductId = productList[0].Value.ID;
+            orderItems.Price = productList[0].Value.Price;
             orderItems.Amount = 1;
 
             addOrderItem(orderItems);
 
             orderItems.ID = firstId;
-            orderItems.OrderId = ordersList[i].ID;
-            orderItems.ProductId = productList[1].ID;
-            orderItems.Price = productList[1].Price;
+            orderItems.OrderId = ordersList[i].Value.ID;
+            orderItems.ProductId = productList[1].Value.ID;
+            orderItems.Price = productList[1].Value.Price;
             orderItems.Amount = 2;
             addOrderItem(orderItems);
         }

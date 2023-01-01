@@ -34,21 +34,25 @@ namespace BlImplementation
             int maxId = -1;
             for (int i = 0; i < cart.Items.Count; i++)
             {
-                if (cart.Items[i].ID > maxId)
+                if (!cart.Items[i].HasValue)
                 {
-                    maxId = cart.Items[i].ID;
+                    continue;
                 }
-                if (cart.Items[i].ProductId == Id)
+                if (cart.Items[i].Value.ID > maxId)
+                {
+                    maxId = cart.Items[i].Value.ID;
+                }
+                if (cart.Items[i].Value.ProductId == Id)
                 {
                     BO.OrderItem a = new BO.OrderItem();
-                    a.ID = cart.Items[i].ID;
-                    a.ProductId = cart.Items[i].ProductId;
-                    a.Name = cart.Items[i].Name;
-                    a.Price = cart.Items[i].Price;
+                    a.ID = cart.Items[i].Value.ID;
+                    a.ProductId = cart.Items[i].Value.ProductId;
+                    a.Name = cart.Items[i].Value.Name;
+                    a.Price = cart.Items[i].Value.Price;
                     a.Amount = 1;
-                    a.Amount += cart.Items[i].Amount;
+                    a.Amount += cart.Items[i].Value.Amount;
                     a.TotalPrice = a.Price * a.Amount;
-                    a.TotalPrice = cart.Items[i].TotalPrice + a.TotalPrice;
+                    a.TotalPrice = cart.Items[i].Value.TotalPrice + a.TotalPrice;
                     cart.Items.Remove(cart.Items[i]);
                     cart.Items.Add(a);
                     cart.TotalPrice += a.TotalPrice;
@@ -85,27 +89,31 @@ namespace BlImplementation
             }
             for (int i = 0; i < cart.Items.Count; i++)
             {
-                int more = newAmount - cart.Items[i].Amount;
+                if(cart.Items[i] == null)
+                {
+                    continue;
+                }
+                int more = newAmount - cart.Items[i].Value.Amount;
                 // the product is found in cart, the amount is bigger than 0 and different from curr amount:
-                if ((product.ID == cart.Items[i].ID) && (cart.Items[i].Amount != newAmount) && (newAmount > 0))
+                if ((product.ID == cart.Items[i].Value.ID) && (cart.Items[i].Value.Amount != newAmount) && (newAmount > 0))
                 {
 
                     BO.OrderItem a = new BO.OrderItem();
                     a.Price = product.Price;
                     a.ProductId = product.ID;
-                    a.ID = cart.Items[i].ID;
+                    a.ID = cart.Items[i].Value.ID;
                     a.Name = product.Name;
                     a.Amount = newAmount;
                     a.TotalPrice = a.Amount * a.Price;
-                    cart.TotalPrice -= cart.Items[i].TotalPrice;
+                    cart.TotalPrice -= cart.Items[i].Value.TotalPrice;
                     cart.Items.RemoveAt(i);
                     cart.Items.Add(a);
                     cart.TotalPrice += a.TotalPrice;
                     return cart;
                 }
-                else if ((product.ID == cart.Items[i].ID) && (newAmount == 0))
+                else if ((product.ID == cart.Items[i].Value.ID) && (newAmount == 0))
                 {
-                    cart.TotalPrice -= cart.Items[i].TotalPrice;
+                    cart.TotalPrice -= cart.Items[i].Value.TotalPrice;
                     cart.Items.RemoveAt(i);
 
                     return cart;
@@ -176,7 +184,11 @@ namespace BlImplementation
             cartValidation(cart);
             for (int i = 0; i < cart.Items.Count; i++)
             {
-                checkCart(cart.Items[i]);
+                if (cart.Items[i].HasValue)
+                {
+                    checkCart(cart.Items[i].Value);
+
+                }
             }
             DalFacade.DO.Order order = new DalFacade.DO.Order();
             order.OrderDate = DateTime.Now;
@@ -187,14 +199,19 @@ namespace BlImplementation
             DalFacade.DO.OrderItem orderItem = new DalFacade.DO.OrderItem();
             for (int i =0;i< cart.Items.Count; i++)
             {
-                orderItem.ProductId = cart.Items[i].ProductId;
-                orderItem.Amount = cart.Items[i].Amount;
-                orderItem.Price = cart.Items[i].Price;
+                if (!cart.Items[i].HasValue)
+                {
+                    continue;
+
+                }
+                orderItem.ProductId = cart.Items[i].Value.ProductId;
+                orderItem.Amount = cart.Items[i].Value.Amount;
+                orderItem.Price = cart.Items[i].Value.Price;
                 orderItem.OrderId = id;
                 orderItem.ID = 0;
                 Dal.OrderItem.add(orderItem);
                 
-                DalFacade.DO.Product product = Dal.Product.get(cart.Items[i].ProductId);
+                DalFacade.DO.Product product = Dal.Product.get(cart.Items[i].Value.ProductId);
 
                 product.InStock = product.InStock - orderItem.Amount;
                 if (product.InStock == 0)
