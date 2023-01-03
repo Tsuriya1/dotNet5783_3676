@@ -23,5 +23,10 @@ namespace PL.Product
         {
             InitializeComponent();
         }
+
+        private void ProductListReview_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+
+        }
     }
 }
