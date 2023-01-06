@@ -1,4 +1,5 @@
-﻿using System;
+﻿using BlApi;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -20,6 +21,8 @@ namespace PL
     /// </summary>
     public partial class MainWindow : Window
     {
+        // is it correct?
+        private IBl bl =new Bl();
         public MainWindow()
         {
             InitializeComponent();

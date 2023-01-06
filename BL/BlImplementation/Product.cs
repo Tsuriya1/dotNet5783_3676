@@ -17,10 +17,10 @@ namespace BlImplementation
             if (product.Category.HasValue)
             {
                 if (product.Category == DalFacade.DO.Category.Family)
-                    if (product.Category == 0)
-                    {
-                        return BO.Category.Family;
-                    }
+                {
+                    return BO.Category.Family;
+
+                }
                 if (product.Category == DalFacade.DO.Category.Sport)
                 {
                     return BO.Category.Sport;
@@ -49,6 +49,26 @@ namespace BlImplementation
             int len = products.Count();
             for (int i = 0; i < len; i++)
             {
+                ProductForList a = new ProductForList();
+                a.ID = products.ElementAt(i).ID;
+                a.Name = products.ElementAt(i).Name;
+                a.Price = products.ElementAt(i).Price;
+                a.Category = ConvertCategory(products.ElementAt(i));
+                forLists.Add(a);
+            }
+            return forLists;
+        }
+        public List<ProductForList?> GetProductsByCategory(Category category)
+        {
+            IEnumerable<DalFacade.DO.Product> products = Dal.Product.get();
+            List<ProductForList?> forLists = new List<ProductForList?>();
+            int len = products.Count();
+            for (int i = 0; i < len; i++)
+            {
+                if(ConvertCategory(products.ElementAt(i)) != category)
+                {
+                    continue;
+                } 
                 ProductForList a = new ProductForList();
                 a.ID = products.ElementAt(i).ID;
                 a.Name = products.ElementAt(i).Name;
@@ -129,7 +149,7 @@ namespace BlImplementation
                 }
                 catch (DalFacade.DO.NotFoundException e)
                 {
-                    throw new BO.NotValidValue("product not found", e);
+                    throw new BO.NotValidValue("product Id already exist", e);
                 }
             }
             else
@@ -182,7 +202,6 @@ namespace BlImplementation
             }
         }
 
-        
         
     }
 }

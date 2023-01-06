@@ -9,6 +9,7 @@ namespace BlApi
 {
     public interface Iproduct
     {
+        public List<ProductForList?> GetProductsByCategory(Category category); 
         public List<ProductForList?> GetProducts ();
         public Product getProductsDetails(int ID);
         public ProductItem getProductsDetails(int ID,Cart cart);

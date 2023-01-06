@@ -785,7 +785,7 @@ namespace Dal
                 try
                 {
                     Order order = dalList.Order.get(orderID);
-                    IEnumerable<DalFacade.DO.OrderItem> orderItems = dalList.OrderItem.get(order);
+                    IEnumerable<DalFacade.DO.OrderItem?> orderItems = dalList.OrderItem.get(order);
                     foreach (DalFacade.DO.OrderItem o in orderItems)
                     {
                         Console.WriteLine(o);

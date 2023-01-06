@@ -51,6 +51,7 @@ internal class DalProduct : Iproduct
     public IEnumerable<Product> get(Func<Product, bool>? func = null)
     {
         List<DalFacade.DO.Product> products = new List<DalFacade.DO.Product>();
+        _ = DataSource.productList.Count;
         for (int i = 0; i < Dal.DataSource.productList.Count; i++)
         {
             if (!Dal.DataSource.productList[i].HasValue)

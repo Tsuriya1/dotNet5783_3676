@@ -7,20 +7,21 @@
         mc:Ignorable="d"
         Title="ProductListWindow" Height="640" Width="800">
     <Grid x:Name="MainGrid">
-        <ListView x:Name="ProductListReview" Grid.Row="1" d:ItemsSource="{d:SampleData ItemCount=5}" SelectionChanged="ProductListReview_SelectionChanged">
+        <ListView x:Name="ProductListReview" Grid.Row="1" d:ItemsSource="{d:SampleData ItemCount=5}" SelectionChanged="ProductListReview_SelectionChanged" MouseDoubleClick="ProductListReview_MouseDoubleClick">
             <ListView.View>
                 <GridView>
                     <GridViewColumn/>
                 </GridView>
             </ListView.View>
         </ListView>
+        <Button Content="Add new Product" Click="add_Button_Click" Grid.Row="2" HorizontalAlignment="Right" Margin="5" Padding="5"/>
         <Grid Name="UpGrid" HorizontalAlignment="Stretch" Height="auto" Grid.Row="0"
         VerticalAlignment="Stretch" Width="auto">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="*"/>
                 <ColumnDefinition Width="*"/>
             </Grid.ColumnDefinitions >
-            <ComboBox Name="CategorySelector" Grid.Column="1" HorizontalAlignment="Stretch" VerticalAlignment="Stretch"/>
+            <ComboBox Name="CategorySelector" Grid.Column="1" SelectionChanged="CategorySelector_SelectionChanged"/>
             <Label Name="CategoryLabel" Content="Category" Grid.Column="0"/>
         </Grid>
         <Grid.RowDefinitions>
