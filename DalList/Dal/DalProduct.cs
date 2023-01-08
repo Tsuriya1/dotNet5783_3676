@@ -95,6 +95,7 @@ internal class DalProduct : Iproduct
         {
             if (Dal.DataSource.productList[i].Value.ID == product.ID)
             {
+                delete(product.ID);
                 DataSource.productList.Insert(i, product);
                 return;
             }

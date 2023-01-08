@@ -33,7 +33,11 @@ namespace PL.Product
         private void ProductListReview_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
         }
-        private void add_Button_Click(object sender, RoutedEventArgs e) => new Product.AddProductWindow().Show();
+        private void add_Button_Click(object sender, RoutedEventArgs e) { 
+            new Product.AddProductWindow().Show();
+            Close();
+
+        }
 
         private void CategorySelector_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
@@ -53,11 +57,20 @@ namespace PL.Product
 
         private void ProductListReview_MouseDoubleClick(object sender, MouseButtonEventArgs e)
         {
-            BO.Product? product = ((ListViewItem)sender).Content as BO.Product?;
-            new Product.UpdateAndActionsWindow(((BO.Product)sender).ID).Show();
-            
+            if (ProductListReview.SelectedItems.Count == 1)
+            {//display the text of selected item
+
+                BO.ProductForList selectedProduct =  (BO.ProductForList)ProductListReview.SelectedItems[0];
+                int id = selectedProduct.ID;
+                new Product.UpdateAndActionsWindow(id).Show();
+                Close();
+                //ProductListReview.ItemsSource = bl.Product.GetProducts();
+
+
+            }
+
         }
 
-        
     }
+
 }

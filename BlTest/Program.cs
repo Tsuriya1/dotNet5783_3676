@@ -343,7 +343,7 @@ class Program
                 Console.WriteLine(@"Enter the ID number of the Order you want to see Item Orders related to");
                 int.TryParse(Console.ReadLine(), out orderId);
                 DalFacade.DO.Order myorder = dalList.Order.get(orderId);
-                IEnumerable<DalFacade.DO.OrderItem> ordersItemsList = dalList.OrderItem.get(myorder);
+                IEnumerable<DalFacade.DO.OrderItem?> ordersItemsList = dalList.OrderItem.get(myorder);
                 foreach (DalFacade.DO.OrderItem item in ordersItemsList)
                     Console.WriteLine(item);
                 break;

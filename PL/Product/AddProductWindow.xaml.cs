@@ -59,10 +59,10 @@ namespace PL.Product
             product.InStock = convertIntPos(In_Stock.Text);
 
             bl.Product.addProduct(product);
+            new Product.ProductListWindow().Show();
+
             Close();    
 
         }
-
-
     }
 }

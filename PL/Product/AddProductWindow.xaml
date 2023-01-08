@@ -7,19 +7,19 @@
         mc:Ignorable="d"
         Title="AddProductWindow" Height="450" Width="800">
     <Grid>
-        <TextBox Name="Id" HorizontalAlignment="Left" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="120" Margin="280,105,0,0"/>
-        <TextBox Name="Name" HorizontalAlignment="Left" TextWrapping="Wrap" Text="" Width="120" VerticalAlignment="Top" Margin="280,185,0,0"/>
-        <TextBox Name="Price" HorizontalAlignment="Left" Margin="280,225,0,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="120"/>
-        <TextBox Name="In_Stock" HorizontalAlignment="Left" Margin="280,265,0,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="120"/>
+        <TextBox Name="Id" HorizontalAlignment="Left" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="120" Margin="360,111,0,0"/>
+        <TextBox Name="Name" HorizontalAlignment="Left" TextWrapping="Wrap" Text="" Width="120" VerticalAlignment="Top" Margin="360,191,0,0"/>
+        <TextBox Name="Price" HorizontalAlignment="Left" Margin="360,231,0,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="120"/>
+        <TextBox Name="In_Stock" HorizontalAlignment="Left" Margin="360,271,0,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="120"/>
 
-        <Label Content="Id:" HorizontalAlignment="Left" Margin="198,105,0,0" VerticalAlignment="Top"/>
-        <Label Content="Category:" HorizontalAlignment="Left" Margin="198,142,0,0" VerticalAlignment="Top"/>
-        <Label Content="Name:" HorizontalAlignment="Left" Margin="198,183,0,0" VerticalAlignment="Top"/>
-        <Label Content="Price:" HorizontalAlignment="Left" Margin="198,225,0,0" VerticalAlignment="Top"/>
-        <Label Content="In Stock:" HorizontalAlignment="Left" Margin="198,261,0,0" VerticalAlignment="Top"/>
+        <Label Content="Id:" HorizontalAlignment="Left" Margin="278,111,0,0" VerticalAlignment="Top"/>
+        <Label Content="Category:" HorizontalAlignment="Left" Margin="278,148,0,0" VerticalAlignment="Top"/>
+        <Label Content="Name:" HorizontalAlignment="Left" Margin="278,189,0,0" VerticalAlignment="Top"/>
+        <Label Content="Price:" HorizontalAlignment="Left" Margin="278,231,0,0" VerticalAlignment="Top"/>
+        <Label Content="In Stock:" HorizontalAlignment="Left" Margin="278,267,0,0" VerticalAlignment="Top"/>
 
-        <ComboBox Name ="CategorySelector"  HorizontalAlignment="Left" Margin="280,144,0,0" VerticalAlignment="Top" Width="120"/>
-        <Button Content="Add" Click="Add_Button_Click" HorizontalAlignment="Left" Margin="320,323,0,0" VerticalAlignment="Top"/>
+        <ComboBox Name ="CategorySelector"  HorizontalAlignment="Left" Margin="360,150,0,0" VerticalAlignment="Top" Width="120"/>
+        <Button Content="Add" Click="Add_Button_Click" HorizontalAlignment="Left" Margin="400,329,0,0" VerticalAlignment="Top"/>
 
     </Grid>
 </Window>
