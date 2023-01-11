@@ -1,4 +1,4 @@
-﻿using BlApi;
+﻿//using BlApi;
 using BO;
 using System;
 using System.Collections.Generic;
@@ -21,8 +21,8 @@ namespace PL.Product
     /// </summary>
     public partial class ProductListWindow : Window
     {
-        // is it correct?
-        private IBl bl = new Bl();
+        private BlApi.IBl? bl = BlApi.Factory.get();
+
         public ProductListWindow()
         {
             InitializeComponent();

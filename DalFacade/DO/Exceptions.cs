@@ -20,5 +20,13 @@ namespace DalFacade.DO
 
         
     }
+    [Serializable]
+    public class DalConfigException : Exception
+    {
+        public DalConfigException(string msg) : base(msg) { }
+        public DalConfigException(string msg, Exception ex) : base(msg, ex) { }
+    }
+
+
 }
 

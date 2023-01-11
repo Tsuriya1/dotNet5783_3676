@@ -6,7 +6,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Xml;
 
-sealed public class Bl : IBl
+sealed internal class Bl : IBl
 {
     public Icart Cart => new BlImplementation.Cart();
 

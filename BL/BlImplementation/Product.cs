@@ -4,14 +4,15 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using BO;
-using Dal;
+//using Dal;
 
 
 namespace BlImplementation
 {
     internal class Product : BlApi.Iproduct
     {
-        private IDal Dal = new DalList();
+        IDal? Dal = DalApi.Factory.Get();
+        //private IDal Dal = new DalList();
         private BO.Category? ConvertCategory(DalFacade.DO.Product product)
         {
             if (product.Category.HasValue)

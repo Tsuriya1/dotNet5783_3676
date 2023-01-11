@@ -6,7 +6,8 @@ namespace Dal
 {
     public class testClass
     {
-        private static DalList dalList = new DalList();
+        private static IDal? dalList = DalApi.Factory.Get();
+        //private static DalList dalList = new DalList();
 
         private static int convertIntPos(string num)
         {

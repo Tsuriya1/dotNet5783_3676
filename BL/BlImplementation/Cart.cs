@@ -6,14 +6,14 @@ using System.Text;
 using System.Threading.Tasks;
 using BlApi;
 using BO;
-using Dal;
+//using Dal;
 using DalFacade.DO;
 
 namespace BlImplementation
 {
     internal class Cart : Icart
     {
-        private IDal Dal = new DalList();
+        private IDal? Dal = DalApi.Factory.Get();
 
         BO.Cart Icart.AddProduct(BO.Cart cart, int Id)
         {

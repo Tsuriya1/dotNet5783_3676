@@ -1,6 +1,6 @@
 ﻿using BlApi;
 using BO;
-using Dal;
+//using Dal;
 using DalFacade.DO;
 using System;
 using System.Collections.Generic;
@@ -13,7 +13,8 @@ namespace BlImplementation
     internal class Order : BlApi.Iorder
 
     {
-        private IDal Dal = new DalList();
+        IDal? Dal = DalApi.Factory.Get();
+       // private IDal Dal = new DalList();
         IEnumerable<OrderForList?> Iorder.GetOrder()
         {
 

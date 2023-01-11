@@ -11,7 +11,7 @@ enum StoreMenu { Exit, Product, Order, OrderItem };
 
 class Program
 {
-    static IDal dalList = new DalList();
+    private static IDal? dalList = DalApi.Factory.Get();
     private static StoreMenu menuChoice;
     static void Main(string[] args)
     {

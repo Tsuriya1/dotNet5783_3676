@@ -21,8 +21,7 @@ namespace PL
     /// </summary>
     public partial class MainWindow : Window
     {
-        // is it correct?
-        private IBl bl =new Bl();
+        private BlApi.IBl? bl = BlApi.Factory.get();
         public MainWindow()
         {
             InitializeComponent();

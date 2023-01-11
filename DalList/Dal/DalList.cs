@@ -3,9 +3,12 @@ using System.Collections.Specialized;
 
 namespace Dal;
 
- sealed public class DalList : IDal
+ internal sealed class DalList : IDal
 {
+    private DalList()
+    {}
     public IOrder Order => new DalOrder();
     public IOrderItem OrderItem => new DalOrderItem();
     public Iproduct Product => new DalProduct();
+    public static IDal Instance { get; } = new DalList();
 }
