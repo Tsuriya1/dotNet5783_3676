@@ -59,9 +59,17 @@ namespace PL.Product
             product.Name = Name.Text;
             product.Price = convertDoublePos(Price.Text);
             product.InStock = convertIntPos(In_Stock.Text);
+            try
+            {
+                bl.Product.addProduct(product);
 
-            bl.Product.addProduct(product);
-            new Product.ProductListWindow().Show();
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message);
+                return;
+            }
+            //new Product.ProductListWindow().Show();
 
             Close();    
 

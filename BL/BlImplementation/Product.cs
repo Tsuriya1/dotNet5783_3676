@@ -43,10 +43,24 @@ namespace BlImplementation
             }
             return null;   
         }
-        List<ProductForList?> BlApi.Iproduct.GetProducts()
+
+
+        private BO.ProductForList? convert2ProductForList(DalFacade.DO.Product product)
+        {
+            ProductForList a = new ProductForList();
+            a.ID = product.ID;
+            a.Name = product.Name;
+            a.Price = product.Price;
+            a.Category = ConvertCategory(product);
+            return a;
+        }
+
+
+        IEnumerable<ProductForList?> BlApi.Iproduct.GetProducts()
         {
             IEnumerable<DalFacade.DO.Product> products = Dal.Product.get();
-            List<ProductForList?> forLists = new List<ProductForList?>();
+            var a =  products.Select(x=>convert2ProductForList(x));
+            /*List<ProductForList?> forLists = new List<ProductForList?>();
             int len = products.Count();
             for (int i = 0; i < len; i++)
             {
@@ -56,28 +70,43 @@ namespace BlImplementation
                 a.Price = products.ElementAt(i).Price;
                 a.Category = ConvertCategory(products.ElementAt(i));
                 forLists.Add(a);
-            }
-            return forLists;
+            }*/
+            return a;
         }
-        public List<ProductForList?> GetProductsByCategory(Category category)
+
+
+        public IEnumerable<ProductForList?> GetProductsByCategory(Category category)
         {
-            IEnumerable<DalFacade.DO.Product> products = Dal.Product.get();
-            List<ProductForList?> forLists = new List<ProductForList?>();
-            int len = products.Count();
+            
+            IEnumerable<DalFacade.DO.Product> products1 = Dal.Product.get();
+            var productGroups =
+            from w in products1
+            group w by w.Category into g
+            select new { category = g.Key, products = g };
+
+            //productGroups.
+            var filtered = productGroups.Where(x => ConvertCategory(x.products.ElementAt(0)) == category);
+            if (!filtered.Any())
+            {
+                return new List<ProductForList?>();
+            }
+            return filtered.First().products.Select(x=>convert2ProductForList(x));
+            /*List<ProductForList?> forLists = new List<ProductForList?>();
+            int len = products1.Count();
             for (int i = 0; i < len; i++)
             {
-                if(ConvertCategory(products.ElementAt(i)) != category)
+                if(ConvertCategory(products1.ElementAt(i)) != category)
                 {
                     continue;
                 } 
                 ProductForList a = new ProductForList();
-                a.ID = products.ElementAt(i).ID;
-                a.Name = products.ElementAt(i).Name;
-                a.Price = products.ElementAt(i).Price;
-                a.Category = ConvertCategory(products.ElementAt(i));
+                a.ID = products1.ElementAt(i).ID;
+                a.Name = products1.ElementAt(i).Name;
+                a.Price = products1.ElementAt(i).Price;
+                a.Category = ConvertCategory(products1.ElementAt(i));
                 forLists.Add(a);
             }
-            return forLists;
+            return forLists;*/
         }
         public BO.Product getProductsDetails(int ID)
         {

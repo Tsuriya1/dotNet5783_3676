@@ -7,7 +7,7 @@
         mc:Ignorable="d"
         Title="ProductListWindow" Height="640" Width="800">
     <Grid x:Name="MainGrid">
-        <ListView x:Name="ProductListReview" Grid.Row="1" d:ItemsSource="{d:SampleData ItemCount=5}" SelectionChanged="ProductListReview_SelectionChanged" MouseDoubleClick="ProductListReview_MouseDoubleClick">
+        <ListView x:Name="ProductListReview" Grid.Row="1" ItemsSource="{Binding ProductsCollectionFilter.View}" MouseDoubleClick="ProductListReview_MouseDoubleClick">
             <ListView.View>
                 <GridView>
                     <GridViewColumn/>
@@ -21,7 +21,7 @@
                 <ColumnDefinition Width="*"/>
                 <ColumnDefinition Width="*"/>
             </Grid.ColumnDefinitions >
-            <ComboBox Name="CategorySelector" Grid.Column="1" SelectionChanged="CategorySelector_SelectionChanged"/>
+            <ComboBox Name="CategorySelector" ItemsSource="{Binding Categories}" SelectedItem="{Binding Category}" Grid.Column="1"/>
             <Label Name="CategoryLabel" Content="Category" Grid.Column="0"/>
         </Grid>
         <Grid.RowDefinitions>

@@ -5,6 +5,7 @@ using DalFacade.DO;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Security.Cryptography;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -14,34 +15,38 @@ namespace BlImplementation
 
     {
         IDal? Dal = DalApi.Factory.Get();
-       // private IDal Dal = new DalList();
+        // private IDal Dal = new DalList();
+
+        OrderForList? convert2_order_list(DalFacade.DO.Order order)
+        {
+            OrderForList orderForList = new OrderForList();
+            orderForList.ID = order.ID;
+            orderForList.CustomerName = order.CustumerName;
+            IEnumerable<DalFacade.DO.OrderItem?> temp = Dal.OrderItem.get(order);
+            orderForList.AmountOfItems = temp.Count();
+            orderForList.status = OrderStatus.Confirmed;        // "confirmed" is the default value
+            int sumOfAmount = 0;
+            double sumOfprice = 0;
+            foreach (DalFacade.DO.OrderItem item in temp)
+            {
+                sumOfAmount += item.Amount;
+                double itemPrice = item.Price * item.Price;
+                sumOfprice += itemPrice;
+            }
+            orderForList.AmountOfItems = sumOfAmount;
+            orderForList.TotalPrice = sumOfprice;
+            return orderForList;
+        }
+        
         IEnumerable<OrderForList?> Iorder.GetOrder()
         {
 
             IEnumerable<DalFacade.DO.Order> orders = Dal.Order.get();
 
-            List<OrderForList?> list_of_ordersForList = new List<OrderForList?>();
-            foreach (DalFacade.DO.Order order in orders)
-            {
-
-                OrderForList orderForList = new OrderForList();
-                orderForList.ID = order.ID;
-                orderForList.CustomerName = order.CustumerName;
-                IEnumerable<DalFacade.DO.OrderItem?> temp = Dal.OrderItem.get(order);
-                orderForList.AmountOfItems = temp.Count();
-                orderForList.status = OrderStatus.Confirmed;        // "confirmed" is the default value
-                int sumOfAmount = 0;
-                double sumOfprice = 0;
-                foreach (DalFacade.DO.OrderItem item in temp)
-                {
-                    sumOfAmount += item.Amount;
-                    double itemPrice = item.Price * item.Price;
-                    sumOfprice += itemPrice;
-                }
-                orderForList.AmountOfItems = sumOfAmount;
-                orderForList.TotalPrice = sumOfprice;
-                list_of_ordersForList.Add(orderForList);
-            }
+            //List<OrderForList?> list_of_ordersForList = new List<OrderForList?>();
+            var list_of_ordersForList = from DalFacade.DO.Order order in orders
+                                        let orderForList = convert2_order_list(order)
+                                        select orderForList;
             return list_of_ordersForList;
         }
         public BO.Order getOrderDetails(int ID)
@@ -68,11 +73,14 @@ namespace BlImplementation
                 BOorder.ShipDate = order.ShipDate;
                 BOorder.PaymentDate = null;
                 BOorder.Items = Dal.OrderItem.get(order);
-                double totlaPrice = 0; 
-                foreach(DalFacade.DO.OrderItem item in BOorder.Items)
+                double totlaPrice = 0;
+                totlaPrice = BOorder.Items.Sum(x => x.Value.Price);
+                /**
+                foreach (DalFacade.DO.OrderItem item in BOorder.Items)
                 {
                     totlaPrice += item.Price;
                 }
+                **/
                 BOorder.TotalPrice = totlaPrice;
                 return BOorder;
             }

@@ -1,7 +1,9 @@
 ﻿//using BlApi;
 using BO;
+using DalFacade.DO;
 using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -22,12 +24,26 @@ namespace PL.Product
     public partial class ProductListWindow : Window
     {
         private BlApi.IBl? bl = BlApi.Factory.get();
-
+        private ProductVM productVM;
         public ProductListWindow()
         {
             InitializeComponent();
-            ProductListReview.ItemsSource = bl.Product.GetProducts();
-            CategorySelector.ItemsSource = Enum.GetValues(typeof(BO.Category));
+            productVM = new ProductVM();
+            this.DataContext = productVM;
+            try
+            {
+                int i = 0;
+/*                
+ *                ProductListReview.ItemsSource = ProductCollection;
+*//*                ProductListReview.ItemsSource = bl.Product.GetProducts();
+*/
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message);
+                Close();
+            }
+            //CategorySelector.ItemsSource = Enum.GetValues(typeof(BO.Category));
         }
 
         private void ProductListReview_SelectionChanged(object sender, SelectionChangedEventArgs e)
@@ -35,25 +51,24 @@ namespace PL.Product
         }
         private void add_Button_Click(object sender, RoutedEventArgs e) { 
             new Product.AddProductWindow().Show();
-            Close();
-
+//            Close();
         }
 
-        private void CategorySelector_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        /*private void CategorySelector_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
             BO.Category choice = (BO.Category)CategorySelector.SelectedItem;
-            List<ProductForList?> list= bl.Product.GetProductsByCategory(choice);
+            IEnumerable<ProductForList?> list= bl.Product.GetProductsByCategory(choice);
             List<ProductForList> listWithoutNull = new List<ProductForList>();
-            for(int i = 0; i < list.Count; i++)
+            for(int i = 0; i < list.Count(); i++)
             {
-                if (list[i].HasValue)
+                if (list.ElementAt(i).HasValue)
                 {
-                    listWithoutNull.Add(list[i].Value);
+                    listWithoutNull.Add(list.ElementAt(i).Value);
                 }
             }
             ProductListReview.ItemsSource = listWithoutNull;
 
-        }
+        }*/
 
         private void ProductListReview_MouseDoubleClick(object sender, MouseButtonEventArgs e)
         {

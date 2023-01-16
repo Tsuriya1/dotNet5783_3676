@@ -1,6 +1,7 @@
 ﻿namespace Dal;
 using DalFacade.DO;
 using System;
+using System.Security.Cryptography.X509Certificates;
 
 internal class DalOrderItem : IOrderItem
 {
@@ -13,8 +14,14 @@ internal class DalOrderItem : IOrderItem
 
     public DalFacade.DO.OrderItem get(int ID)
     {
-
-        for (int i = 0; i < DataSource.orderItemList.Count; i++)
+        var item =from orderItem in DataSource.orderItemList where (orderItem.HasValue && orderItem.Value.ID == ID) select orderItem.Value;
+        if (item != null && item.Count() > 0)
+        {
+            return item.First();
+        }
+        throw new DalFacade.DO.NotFoundException("orderItem not found");
+/*
+            for (int i = 0; i < DataSource.orderItemList.Count; i++)
         {
             if (DataSource.orderItemList[i].HasValue)
             {
@@ -25,10 +32,24 @@ internal class DalOrderItem : IOrderItem
             }
         }
         throw new DalFacade.DO.NotFoundException("orderItem not found");
+*/
     }
     public OrderItem getObject(Func<OrderItem, bool>? func)
     {
-        for (int i = 0; i < DataSource.orderItemList.Count; i++)
+        if (func == null) {
+            throw new DalFacade.DO.NotFoundException("no filter parameter is given");
+        }
+        var item = from orderItem in DataSource.orderItemList
+                   where (orderItem.HasValue && func(orderItem.Value))
+                   select orderItem.Value;
+        if (item != null && item.Count() > 0)
+        {
+            return item.First();
+        }
+        throw new DalFacade.DO.NotFoundException("orderItem not found");
+
+
+        /*for (int i = 0; i < DataSource.orderItemList.Count; i++)
         {
             if (DataSource.orderItemList[i].HasValue)
             {
@@ -38,25 +59,44 @@ internal class DalOrderItem : IOrderItem
                 }
             }
         }
-        throw new DalFacade.DO.NotFoundException("orderItem not found");
+        throw new DalFacade.DO.NotFoundException("orderItem not found");*/
     }
     public DalFacade.DO.OrderItem get(int productId, int orderId)
     {
+        var item = from orderItem in DataSource.orderItemList
+                   where ((orderItem.HasValue) && (orderItem.Value.ProductId == productId) && (orderItem.Value.OrderId == orderId))
+                   select orderItem.Value;
+        if (item != null && item.Count() > 0)
+        {
+            return item.First();
+        }
+        throw new DalFacade.DO.NotFoundException("orderItem not found");
 
-        for (int i = 0; i < Dal.DataSource.orderItemList.Count; i++)
+
+        /*for (int i = 0; i < Dal.DataSource.orderItemList.Count; i++)
         {
             if ((Dal.DataSource.orderItemList[i].Value.ProductId == productId)&&(Dal.DataSource.orderItemList[i].Value.OrderId == orderId))
             {
                 return Dal.DataSource.orderItemList[i].Value;
             }
         }
-        throw new DalFacade.DO.NotFoundException("orderItem not found");
+        throw new DalFacade.DO.NotFoundException("orderItem not found");*/
     }
 
     public IEnumerable<OrderItem> get(Func<OrderItem, bool>? func = null)
     {
-        List<DalFacade.DO.OrderItem> orderItems = new List<DalFacade.DO.OrderItem>();
-        for (int i = 0; i < Dal.DataSource.orderItemList.Count; i++)
+        IEnumerable<DalFacade.DO.OrderItem> orderItems;
+        if (func == null) 
+        {
+            orderItems = from orderItem in DataSource.orderItemList
+                         where (orderItem.HasValue)
+                         select orderItem.Value;
+            return orderItems;
+        }
+        orderItems = from orderItem in DataSource.orderItemList
+                     where (orderItem.HasValue && func(orderItem.Value))
+                     select orderItem.Value;
+        /*for (int i = 0; i < Dal.DataSource.orderItemList.Count; i++)
         {
             if (!DataSource.orderItemList[i].HasValue)
             {
@@ -74,7 +114,7 @@ internal class DalOrderItem : IOrderItem
                 orderItems.Insert(i, DataSource.orderItemList[i].Value);
             }
             orderItems.Insert(i, DataSource.orderItemList[i].Value);
-        }
+        }*/
         return orderItems;
 
     }
@@ -82,20 +122,24 @@ internal class DalOrderItem : IOrderItem
 
     public IEnumerable< OrderItem?> get(DalFacade.DO.Order order)
     {
-        int count = 0;
-        for (int i = 0; i < Dal.DataSource.orderItemList.Count; i++)
+        int count;
+        count = Dal.DataSource.orderItemList.Count(x=> (x.HasValue&& x.Value.OrderId == order.ID));
+        /*for (int i = 0; i < Dal.DataSource.orderItemList.Count; i++)
         {
 
             if (Dal.DataSource.orderItemList[i].Value.OrderId == order.ID)
             {
                 count ++;
             }
-        }
+        }*/
 
         if(count == 0)
         {
             throw new DalFacade.DO.NotFoundException("orderItem not found");
         }
+
+        IEnumerable<DalFacade.DO.OrderItem?> orderItems = Dal.DataSource.orderItemList.Where(x => (x.HasValue && x.Value.OrderId == order.ID));
+/*
         List<DalFacade.DO.OrderItem?> orderItems = new List<DalFacade.DO.OrderItem?>();
         int inx = 0;
         for (int i = 0; i < Dal.DataSource.orderItemList.Count; i++)
@@ -105,14 +149,20 @@ internal class DalOrderItem : IOrderItem
                 orderItems[inx] = Dal.DataSource.orderItemList[i].Value;
                 inx++;
             }
-        }
+        }*/
         return orderItems;
 
     }
 
     public void delete(int ID)
     {
-        for (int i = 0; i < Dal.DataSource.orderItemList.Count; i++)
+        int count = Dal.DataSource.orderItemList.RemoveAll(x => (x.HasValue && x.Value.ID == ID));
+        if (count == 0)
+        {
+            throw new DalFacade.DO.NotFoundException("orderItem not found");
+        }
+
+        /*for (int i = 0; i < Dal.DataSource.orderItemList.Count; i++)
         {
             if (Dal.DataSource.orderItemList[i].Value.ID == ID)
             {
@@ -121,19 +171,30 @@ internal class DalOrderItem : IOrderItem
             }
         }
         throw new DalFacade.DO.NotFoundException("orderItem not found");
+        */
 
     }
 
-    public void update(DalFacade.DO.OrderItem orderItem)
+    public void update(DalFacade.DO.OrderItem orderItem1)
     {
-        for (int i = 0; i < Dal.DataSource.orderItemList.Count; i++)
+        var item = from orderItem in DataSource.orderItemList
+                   where ((orderItem.HasValue) && (orderItem.Value.ID == orderItem1.ID))
+                   select orderItem.Value;
+        if (item != null && item.Count() > 0)
         {
-            if (Dal.DataSource.orderItemList[i].Value.ID == orderItem.ID)
+            delete(orderItem1.ID);
+            Dal.DataSource.orderItemList.Add(item.First());
+            return;
+        }
+
+       /* for (int i = 0; i < Dal.DataSource.orderItemList.Count; i++)
+        {
+            if (Dal.DataSource.orderItemList[i].Value.ID == orderItem1.ID)
             {
-                Dal.DataSource.orderItemList.Insert(i,orderItem);
+                Dal.DataSource.orderItemList.Insert(i,orderItem1);
                 return;
             }
-        }
+        }*/
         throw new DalFacade.DO.NotFoundException("orderItem not found");
     }
 

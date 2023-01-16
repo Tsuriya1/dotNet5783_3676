@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
+using System.Security.Cryptography;
 using System.Text;
 using System.Threading.Tasks;
 using BlApi;
@@ -11,9 +12,33 @@ using DalFacade.DO;
 
 namespace BlImplementation
 {
-    internal class Cart : Icart
+    internal class Cart : BlApi.Icart
     {
         private IDal? Dal = DalApi.Factory.Get();
+
+
+
+        BO.Cart Icart.deleteItemFromCart(BO.Cart cart, int itemId)
+        {
+            return delete_item(cart, itemId);
+        }
+
+        private BO.Cart delete_item(BO.Cart cart, int itemId)
+        {
+            if (cart.Items == null)
+            {
+                return cart;
+            }
+            cart.Items.RemoveAll(x =>
+            {
+                if (x.HasValue && x.Value.ID == itemId)
+                {
+                    return true;
+                }
+                return false;
+            });
+            return cart;
+        }
 
         BO.Cart Icart.AddProduct(BO.Cart cart, int Id)
         {
@@ -32,34 +57,78 @@ namespace BlImplementation
                 throw new BO.StockError("the product is out of stock");
             }
             int maxId = -1;
-            for (int i = 0; i < cart.Items.Count; i++)
+            //          for (int i = 0; i < cart.Items.Count; i++)
+            if (cart.Items != null)
             {
-                if (!cart.Items[i].HasValue)
+                maxId = cart.Items.Max(x =>
                 {
-                    continue;
-                }
-                if (cart.Items[i].Value.ID > maxId)
+                    if (!x.HasValue)
+                    {
+                        return -1;
+                    }
+                    return x.Value.ID;
+                });
+
+                var filtered = cart.Items.Where(item => 
                 {
-                    maxId = cart.Items[i].Value.ID;
-                }
-                if (cart.Items[i].Value.ProductId == Id)
+                    if (item.HasValue)
+                    {
+                        return item.Value.ProductId == Id;
+
+                    }
+                    else
+                    {
+                        return false;
+                    }
+                });
+
+                if (filtered.Any())
                 {
+                    BO.OrderItem item = filtered.FirstOrDefault().Value; 
                     BO.OrderItem a = new BO.OrderItem();
-                    a.ID = cart.Items[i].Value.ID;
-                    a.ProductId = cart.Items[i].Value.ProductId;
-                    a.Name = cart.Items[i].Value.Name;
-                    a.Price = cart.Items[i].Value.Price;
+                    a.ID = item.ID;
+                    a.ProductId = item.ProductId;
+                    a.Name = item.Name;
+                    a.Price = item.Price;
                     a.Amount = 1;
-                    a.Amount += cart.Items[i].Value.Amount;
+                    a.Amount += item.Amount;
                     a.TotalPrice = a.Price * a.Amount;
-                    a.TotalPrice = cart.Items[i].Value.TotalPrice + a.TotalPrice;
-                    cart.Items.Remove(cart.Items[i]);
+                    a.TotalPrice = item.TotalPrice + a.TotalPrice;
+                    
+                    delete_item(cart,item.ID);
                     cart.Items.Add(a);
                     cart.TotalPrice += a.TotalPrice;
                     return cart;
                 }
-            }
 
+
+            }
+            
+
+
+            /*foreach (BO.OrderItem item in cart.Items)
+            {
+                *//*if (item.ID > maxId)
+                {
+                    maxId = item.ID;
+                }*//*
+                if (item.ProductId == Id)
+                {
+                    BO.OrderItem a = new BO.OrderItem();
+                    a.ID = item.ID;
+                    a.ProductId = item.ProductId;
+                    a.Name = item.Name;
+                    a.Price = item.Price;
+                    a.Amount = 1;
+                    a.Amount += item.Amount;
+                    a.TotalPrice = a.Price * a.Amount;
+                    a.TotalPrice = item.TotalPrice + a.TotalPrice;
+                    cart.Items.Remove(item);
+                    cart.Items.Add(a);
+                    cart.TotalPrice += a.TotalPrice;
+                    return cart;
+                }
+            }*/
 
             BO.OrderItem ToAdd = new BO.OrderItem();
             ToAdd.Name = product.Name;
@@ -87,38 +156,35 @@ namespace BlImplementation
             {
                 throw new StockError ("The asked amount is out of stock");
             }
-            for (int i = 0; i < cart.Items.Count; i++)
+
+            var update_product = from BO.OrderItem item in cart.Items where item.ProductId == ProductId select item;
+            if (update_product != null && update_product.Count() > 0)
             {
-                if(cart.Items[i] == null)
-                {
-                    continue;
-                }
-                int more = newAmount - cart.Items[i].Value.Amount;
-                // the product is found in cart, the amount is bigger than 0 and different from curr amount:
-                if ((product.ID == cart.Items[i].Value.ID) && (cart.Items[i].Value.Amount != newAmount) && (newAmount > 0))
+                if ((update_product.First().Amount != newAmount) && (newAmount > 0))
                 {
 
                     BO.OrderItem a = new BO.OrderItem();
                     a.Price = product.Price;
                     a.ProductId = product.ID;
-                    a.ID = cart.Items[i].Value.ID;
+                    a.ID = update_product.First().ID;
                     a.Name = product.Name;
                     a.Amount = newAmount;
                     a.TotalPrice = a.Amount * a.Price;
-                    cart.TotalPrice -= cart.Items[i].Value.TotalPrice;
-                    cart.Items.RemoveAt(i);
+                    cart.TotalPrice -= update_product.First().TotalPrice;
+                    cart.Items.Remove(update_product.First());
                     cart.Items.Add(a);
                     cart.TotalPrice += a.TotalPrice;
                     return cart;
                 }
-                else if ((product.ID == cart.Items[i].Value.ID) && (newAmount == 0))
+                else if  (newAmount == 0)
                 {
-                    cart.TotalPrice -= cart.Items[i].Value.TotalPrice;
-                    cart.Items.RemoveAt(i);
-
+                    cart.TotalPrice -= update_product.First().TotalPrice;
+                    cart.Items.Remove(update_product.First());
                     return cart;
                 }
             }
+
+            
             throw new NotFoundError ("order item not found");
 
 
@@ -179,16 +245,40 @@ namespace BlImplementation
             }
         }
 
+        bool add_order_item(BO.OrderItem? item,int id)
+        {
+            DalFacade.DO.OrderItem orderItem = new DalFacade.DO.OrderItem();
+
+            if (item.HasValue)
+            {
+                return false;
+
+            }
+            orderItem.ProductId = item.Value.ProductId;
+            orderItem.Amount = item.Value.Amount;
+            orderItem.Price = item.Value.Price;
+            orderItem.OrderId = id;
+            orderItem.ID = 0;
+            Dal.OrderItem.add(orderItem);
+
+            DalFacade.DO.Product product = Dal.Product.get(item.Value.ProductId);
+
+            product.InStock = product.InStock - orderItem.Amount;
+            if (product.InStock == 0)
+            {
+                Dal.Product.delete(product.ID);
+                return true;
+            }
+            Dal.Product.update(product);
+            return true;
+        }
+
         void Icart.Confirm(BO.Cart cart)
         {
             cartValidation(cart);
-            for (int i = 0; i < cart.Items.Count; i++)
+            foreach (BO.OrderItem item in cart.Items)
             {
-                if (cart.Items[i].HasValue)
-                {
-                    checkCart(cart.Items[i].Value);
-
-                }
+                checkCart(item);
             }
             DalFacade.DO.Order order = new DalFacade.DO.Order();
             order.OrderDate = DateTime.Now;
@@ -197,7 +287,9 @@ namespace BlImplementation
             order.CustumerName = cart.CustomerName;
             int id = Dal.Order.add(order);
             DalFacade.DO.OrderItem orderItem = new DalFacade.DO.OrderItem();
-            for (int i =0;i< cart.Items.Count; i++)
+
+            cart.Items.Select(x => add_order_item(x,id));
+            /*for (int i =0;i< cart.Items.Count; i++)
             {
                 if (!cart.Items[i].HasValue)
                 {
@@ -220,8 +312,11 @@ namespace BlImplementation
                     return;
                 }
                 Dal.Product.update(product);
-            }
+            }*/
         }
-    }
 
+        
+
+        
+    }
 }

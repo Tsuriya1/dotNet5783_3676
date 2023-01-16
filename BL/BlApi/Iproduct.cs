@@ -9,8 +9,8 @@ namespace BlApi
 {
     public interface Iproduct
     {
-        public List<ProductForList?> GetProductsByCategory(Category category); 
-        public List<ProductForList?> GetProducts ();
+        public IEnumerable<ProductForList?> GetProductsByCategory(Category category); 
+        public IEnumerable<ProductForList?> GetProducts ();
         public Product getProductsDetails(int ID);
         public ProductItem getProductsDetails(int ID,Cart cart);
         public void addProduct(Product product);

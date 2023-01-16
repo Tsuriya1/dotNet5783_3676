@@ -1,8 +1,10 @@
 ﻿using BlApi;
 using BO;
 using Dal;
+using DalFacade.DO;
 using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -23,6 +25,9 @@ namespace PL.Product
 
     public partial class UpdateAndActionsWindow : Window
     {
+        private IDal Dal = DalApi.Factory.Get();
+        BO.Product product = new BO.Product();
+
         private int convertIntPos(string num)
         {
             int ret;
@@ -45,18 +50,29 @@ namespace PL.Product
             return ret;
         }
 
-        private IDal Dal = new DalList();
-        BO.Product product = new BO.Product();
+        
 
-        private IBl bl = new Bl();
+        private IBl bl = BlApi.Factory.get();
         public UpdateAndActionsWindow()
         {
             InitializeComponent();
         }
+
         public UpdateAndActionsWindow(int ProductId)
         {
             InitializeComponent();
-            product = bl.Product.getProductsDetails(ProductId);
+            try
+            {
+                product = bl.Product.getProductsDetails(ProductId);
+
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message);
+                new Product.ProductListWindow().Show();
+                Close();
+            }
+            
             Id.Text = product.ID.ToString();
             Name.Text = product.Name;
             Price.Text = product.Price.ToString();
@@ -80,9 +96,18 @@ namespace PL.Product
             product.Name = Name.Text;
             product.Price = convertDoublePos(Price.Text);
             product.InStock = convertIntPos(In_Stock.Text);
-            bl.Product.updateData(product);
-            new Product.ProductListWindow().Show();
+            try
+            {
+                bl.Product.updateData(product);
 
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message);
+                return;
+            }
+
+            new Product.ProductListWindow().Show();
             Close();
         }
     }
