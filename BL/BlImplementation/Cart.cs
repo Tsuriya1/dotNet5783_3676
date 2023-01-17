@@ -289,30 +289,7 @@ namespace BlImplementation
             DalFacade.DO.OrderItem orderItem = new DalFacade.DO.OrderItem();
 
             cart.Items.Select(x => add_order_item(x,id));
-            /*for (int i =0;i< cart.Items.Count; i++)
-            {
-                if (!cart.Items[i].HasValue)
-                {
-                    continue;
-
-                }
-                orderItem.ProductId = cart.Items[i].Value.ProductId;
-                orderItem.Amount = cart.Items[i].Value.Amount;
-                orderItem.Price = cart.Items[i].Value.Price;
-                orderItem.OrderId = id;
-                orderItem.ID = 0;
-                Dal.OrderItem.add(orderItem);
-                
-                DalFacade.DO.Product product = Dal.Product.get(cart.Items[i].Value.ProductId);
-
-                product.InStock = product.InStock - orderItem.Amount;
-                if (product.InStock == 0)
-                {
-                    Dal.Product.delete(product.ID);
-                    return;
-                }
-                Dal.Product.update(product);
-            }*/
+            
         }
 
         

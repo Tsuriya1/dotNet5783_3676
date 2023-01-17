@@ -1,4 +1,4 @@
-﻿using BlApi;
+﻿using PL.Product;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -11,30 +11,24 @@ using System.Windows.Documents;
 using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
 using System.Windows.Shapes;
 
-namespace PL
+namespace PL.Order
 {
     /// <summary>
-    /// Interaction logic for MainWindow.xaml
+    /// Interaction logic for OrdersView.xaml
     /// </summary>
-    public partial class MainWindow : Window
+    public partial class OrdersView : Window
     {
         private BlApi.IBl? bl = BlApi.Factory.get();
-        public MainWindow()
+
+        public OrdersView()
         {
             InitializeComponent();
+            OrderVM orderVM;
+            orderVM = new OrderVM();
+            this.DataContext = orderVM;
         }
 
-        private void Button_Click(object sender, RoutedEventArgs e) { 
-            new Product.ProductListWindow().Show();
-            Close();    
-        }
-        private void Order_button(object sender, RoutedEventArgs e)
-        {
-            new Order.OrdersView().Show();
-            Close();
-        }
     }
 }

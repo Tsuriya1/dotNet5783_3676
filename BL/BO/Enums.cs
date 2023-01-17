@@ -12,7 +12,8 @@ namespace BO
         Family,
         Mini,
         Motorcycle,
-        Exclusive
+        Exclusive,
+        All_Types
     }
     public enum OrderStatus
     {

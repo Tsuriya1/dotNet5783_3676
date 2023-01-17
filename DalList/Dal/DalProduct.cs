@@ -135,7 +135,8 @@ internal class DalProduct : Iproduct
         if (products != null && products.Count() > 0)
         {
             delete(product.ID);
-            Dal.DataSource.productList.Add(products.First());
+
+            Dal.DataSource.productList.Add(product);
             return;
         }
 

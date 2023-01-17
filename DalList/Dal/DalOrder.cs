@@ -59,7 +59,7 @@ internal class DalOrder : IOrder
     {
         IEnumerable<DalFacade.DO.Order> orders;
         
-        if( func == null)
+        if( func != null)
         {
             orders = from order in DataSource.ordersList where (order.HasValue && func(order.Value)) select order.Value;
         }
@@ -97,7 +97,7 @@ internal class DalOrder : IOrder
     public void delete(int ID)
     {
         int count = DataSource.ordersList.RemoveAll(x => x.HasValue && x.Value.ID == ID);
-        if (count> 0)
+        if (count== 0)
         {
             throw new DalFacade.DO.NotFoundException("order not found");
         }
@@ -123,7 +123,7 @@ internal class DalOrder : IOrder
         {
             
             delete(order.ID);
-            DataSource.ordersList.Add(orderToUpdate.First());
+            DataSource.ordersList.Add(order);
             return;
         }
         /*for (int i = 0; i < DataSource.ordersList.Count; i++)

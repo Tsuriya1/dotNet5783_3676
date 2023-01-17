@@ -183,7 +183,7 @@ internal class DalOrderItem : IOrderItem
         if (item != null && item.Count() > 0)
         {
             delete(orderItem1.ID);
-            Dal.DataSource.orderItemList.Add(item.First());
+            Dal.DataSource.orderItemList.Add(orderItem1);
             return;
         }
 

@@ -27,28 +27,9 @@ namespace PL.Product
     {
         private IDal Dal = DalApi.Factory.Get();
         BO.Product product = new BO.Product();
+        ProductVM vm ;
 
-        private int convertIntPos(string num)
-        {
-            int ret;
-            bool success = int.TryParse(num, out ret);
-            if (!success)
-            {
-                return -1;
-            }
-            return ret;
-        }
-        private double convertDoublePos(string num)
-        {
-            double ret;
-            bool success = double.TryParse(num, out ret);
-            if (!success)
-            {
-                Console.WriteLine("not a number");
-                return -1;
-            }
-            return ret;
-        }
+    
 
         
 
@@ -58,9 +39,11 @@ namespace PL.Product
             InitializeComponent();
         }
 
-        public UpdateAndActionsWindow(int ProductId)
+        public UpdateAndActionsWindow(int ProductId,ProductVM productVM)
         {
             InitializeComponent();
+            this.vm = productVM;
+            this.DataContext = this.vm;
             try
             {
                 product = bl.Product.getProductsDetails(ProductId);
@@ -69,20 +52,19 @@ namespace PL.Product
             catch (Exception ex)
             {
                 MessageBox.Show(ex.Message);
-                new Product.ProductListWindow().Show();
                 Close();
             }
+
+            this.vm.Category_update = product.Category.Value;
+            this.vm.ID = product.ID;
+            this.vm.Name = product.Name;
+            this.vm.Price = product.Price;
+            this.vm.In_stock = product.InStock;
             
-            Id.Text = product.ID.ToString();
-            Name.Text = product.Name;
-            Price.Text = product.Price.ToString();
-            In_Stock.Text = product.InStock.ToString();
-            CategorySelector.ItemsSource = Enum.GetValues(typeof(BO.Category));
-            CategorySelector.SelectedItem = product.Category;
 
         }
 
-        
+
         private void Id_TextChanged(object sender, TextChangedEventArgs e)
         {
 
@@ -91,11 +73,11 @@ namespace PL.Product
         private void Update_Button_Click(object sender, RoutedEventArgs e)
         {
             BO.Product product = new BO.Product();
-            product.Category = (BO.Category)CategorySelector.SelectedItem;
-            product.ID = convertIntPos(Id.Text);
-            product.Name = Name.Text;
-            product.Price = convertDoublePos(Price.Text);
-            product.InStock = convertIntPos(In_Stock.Text);
+            product.Category = this.vm.Category_update;
+            product.ID = this.vm.ID;
+            product.Name = this.vm.Name;
+            product.Price = this.vm.Price;
+            product.InStock = this.vm.In_stock;
             try
             {
                 bl.Product.updateData(product);
@@ -107,7 +89,11 @@ namespace PL.Product
                 return;
             }
 
-            new Product.ProductListWindow().Show();
+            ObservableCollection<BO.ProductForList> products = new ObservableCollection<BO.ProductForList>(bl.Product.GetProducts().Where(x => x.HasValue).Select(x => x.Value));
+            vm.ProductsCollectionFilter.Source = products;
+
+            
+
             Close();
         }
     }

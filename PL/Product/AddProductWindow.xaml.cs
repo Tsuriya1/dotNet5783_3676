@@ -1,6 +1,7 @@
 ﻿//using BlApi;
 using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -23,42 +24,26 @@ namespace PL.Product
        
         private BlApi.IBl? bl = BlApi.Factory.get();
         //private IBl bl = new Bl();
-
-        public AddProductWindow()
+        ProductVM vm;
+        public AddProductWindow(ProductVM productVM)
         {
             InitializeComponent();
-            CategorySelector.ItemsSource = Enum.GetValues(typeof(BO.Category));
-
+            this.vm = productVM;
+            this.DataContext = this.vm;
+            this.vm.ID = 0;
+            this.vm.Name = "";
+            this.vm.Price = 0;
+            this.vm.In_stock = 0;
         }
-        private double convertDoublePos(string num)
-        {
-            double ret;
-            bool success = double.TryParse(num, out ret);
-            if (!success)
-            {
-                Console.WriteLine("not a number");
-                return -1;
-            }
-            return ret;
-        }
-        private int convertIntPos(string num)
-        {
-            int ret;
-            bool success = int.TryParse(num, out ret);
-            if (!success)
-            {
-                return -1;
-            }
-            return ret;
-        }
+        
         private void Add_Button_Click(object sender, RoutedEventArgs e) 
         {
             BO.Product product = new BO.Product();
-            product.Category = (BO.Category)CategorySelector.SelectedItem;
-            product.ID = convertIntPos(Id.Text);
-            product.Name = Name.Text;
-            product.Price = convertDoublePos(Price.Text);
-            product.InStock = convertIntPos(In_Stock.Text);
+            product.Category = this.vm.Category_update;
+            product.ID = this.vm.ID;
+            product.Name = this.vm.Name;
+            product.Price = this.vm.Price;
+            product.InStock = this.vm.In_stock;
             try
             {
                 bl.Product.addProduct(product);
@@ -69,8 +54,8 @@ namespace PL.Product
                 MessageBox.Show(ex.Message);
                 return;
             }
-            //new Product.ProductListWindow().Show();
-
+            ObservableCollection<BO.ProductForList> products = new ObservableCollection<BO.ProductForList>(bl.Product.GetProducts().Where(x => x.HasValue).Select(x => x.Value));
+            vm.ProductsCollectionFilter.Source = products;
             Close();    
 
         }

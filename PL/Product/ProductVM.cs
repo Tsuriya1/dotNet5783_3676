@@ -16,14 +16,52 @@ using System.Runtime.CompilerServices;
 
 namespace PL.Product
 {
+
+
+public class RelayCommand<T>:ICommand
+    {
+        public event EventHandler? CanExecuteChanged;
+        private Action<T> excecute;
+        private object update_prod;
+
+
+        public RelayCommand(Action<T> func)
+        {
+            this.excecute = func;
+        }
+
+        public bool CanExecute(object? parameter)
+        {
+            return true;
+        }
+
+        public void Execute(object? parameter)
+        {
+            if (parameter == null)
+            {
+                return;
+            }
+            excecute((T)parameter);
+        }
+    }
+
+
+
+
+
     public class ProductVM : INotifyPropertyChanged
 
     {
         private BlApi.IBl? bl = BlApi.Factory.get();
         public CollectionViewSource productsCollectionFilter;
         private BO.Category category;
+        private BO.Category category_update;
+
         public System.Array Categories => Enum.GetValues(typeof(BO.Category));
+        public System.Array Categories_update=> convert_cat();
+
         private bool allCat = false;
+        public ICommand update => new RelayCommand<int>(update_prod);
 
         private ObservableCollection<ProductForList> products;
 
@@ -32,7 +70,21 @@ namespace PL.Product
         public ObservableCollection<ProductForList> Products
         {
             get { return products; }
-            set { Set(ref products, value);}
+            set { Set(ref products, value); }
+        }
+
+        private Array convert_cat()
+        {
+            List<BO.Category> temp = new List<BO.Category>();
+            foreach (var x in Categories)
+            {
+                if ((BO.Category)x == BO.Category.All_Types)
+                {
+                    continue;
+                }
+                temp.Add((BO.Category)x);
+            }
+            return temp.ToArray();
         }
 
         public BO.Category Category
@@ -45,33 +97,56 @@ namespace PL.Product
             }
         }
 
+        public BO.Category Category_update
+        {
+            get => category_update;
+            set
+            {
+                Set(ref category_update, value);
+            }
+        }
+
+
+        private void update_prod(int ID)
+        {
+            new Product.UpdateAndActionsWindow(ID,this).Show();
+        }
 
         public ProductVM()
         {
-            allCat = true;
+            
             products = new ObservableCollection<BO.ProductForList>(bl.Product.GetProducts().Where(x => x.HasValue).Select(x => x.Value));
             productsCollectionFilter = new();
             productsCollectionFilter.Source = products;
+            category = BO.Category.All_Types;
             productsCollectionFilter.Filter += new FilterEventHandler(categoryFilter);
-            allCat = false;
+            
+            
 
         }
 
         public void categoryFilter(object sender, FilterEventArgs e)
         {
 
-
-            if (allCat)
+            if(e.Item is BO.ProductForList product)
             {
-                e.Accepted = true;
+                if (category == BO.Category.All_Types)
+                {
+                    e.Accepted = true;
+                    return;
+                }
+                if(product.Category == category)
+                {
+                    e.Accepted = true;
+                }
+                else
+                {
+                    e.Accepted = false;
+                }
                 return;
             }
+            e.Accepted = true;
 
-
-            else if (e.Item is BO.ProductForList product)
-                e.Accepted = product.Category == Category;
-            else
-                e.Accepted = true;
         }
 
 
@@ -84,8 +159,48 @@ namespace PL.Product
             set { Set(ref productsCollectionFilter, value); }
         }
 
+        private string? name;
+        public string? Name
+        {
+            get { return name; }
+            set { Set(ref name, value); }
+        }
+
+        private double price;
+        public double Price
+        {
+            get { return price; }
+            set { Set(ref price, value); }
+        }
+
+        private int in_stock;
+        public int In_stock
+        {
+            get { return in_stock; }
+            set { Set(ref in_stock, value); }
+        }
+        
+        private int id;
+        public int ID
+        {
+            get { return id; }
+            set { Set(ref id, value); }
+        }
+
+
+
+
+
+
+
         private void Set<T>(ref T prop, T val, [CallerMemberName] string? name = "")
         {
+            if(prop == null)
+            {
+                prop = val;
+                PropertyChanged?.Invoke(this, new(name));
+                return;
+            }
             if (!prop.Equals(val))
             {
                 prop = val;
@@ -93,51 +208,6 @@ namespace PL.Product
             }
         }
 
-       
-
-        /*private void ProductListReview_SelectionChanged(object sender, SelectionChangedEventArgs e)
-        {
-        }
-        private void add_Button_Click(object sender, RoutedEventArgs e)
-        {
-            new Product.AddProductWindow().Show();
-            Close();
-
-        }
-
-        private void CategorySelector_SelectionChanged(object sender, SelectionChangedEventArgs e)
-        {
-            BO.Category choice = (BO.Category)CategorySelector.SelectedItem;
-            IEnumerable<ProductForList?> list = bl.Product.GetProductsByCategory(choice);
-            List<ProductForList> listWithoutNull = new List<ProductForList>();
-            for (int i = 0; i < list.Count(); i++)
-            {
-                if (list.ElementAt(i).HasValue)
-                {
-                    listWithoutNull.Add(list.ElementAt(i).Value);
-                }
-            }
-            ProductListReview.ItemsSource = listWithoutNull;
-
-        }
-
-        private void ProductListReview_MouseDoubleClick(object sender, MouseButtonEventArgs e)
-        {
-            if (ProductListReview.SelectedItems.Count == 1)
-            {//display the text of selected item
-
-                BO.ProductForList selectedProduct = (BO.ProductForList)ProductListReview.SelectedItems[0];
-                int id = selectedProduct.ID;
-                new Product.UpdateAndActionsWindow(id).Show();
-                Close();
-                //ProductListReview.ItemsSource = bl.Product.GetProducts();
-
-
-            }
-
-        }
-
-    }*/
     }
 }
 

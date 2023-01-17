@@ -97,6 +97,7 @@ namespace BlImplementation
             {
                 throw new NotFoundError ("order not found",e);
             }
+            var date = DateTime.Now;
             if (order.ShipDate > DateTime.Now)
             {
                 BO.Order BOorder = getOrderDetails(ID);
@@ -126,7 +127,7 @@ namespace BlImplementation
             {
                 throw new NotFoundError ("order not found",e);
             }
-            if (order.DeliveryDate < DateTime.Now)
+            if ((order.DeliveryDate < DateTime.Now )|| order.DeliveryDate == null)
             {
                 BO.Order BOorder = getOrderDetails(ID);
                 if(BOorder.Status != OrderStatus.provided)
@@ -163,6 +164,21 @@ namespace BlImplementation
             orderTracking.Status = BOorder.Status;
             orderTracking.ID = BOorder.ID;
             return orderTracking;
-        }  
+        }
+
+        public OrderForList GetOrderForList(int ID)
+        {
+            IEnumerable<DalFacade.DO.Order> orders = Dal.Order.get();
+
+            var list_of_ordersForList = from DalFacade.DO.Order order in orders
+                                        where order.ID == ID    
+                                        let orderForList = convert2_order_list(order)
+                                        select orderForList;
+            if (list_of_ordersForList.Any())
+            {
+                return list_of_ordersForList.First().Value;
+            }
+            throw new NotFoundError("order not found");
+        }
     }
 }

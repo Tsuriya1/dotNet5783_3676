@@ -16,6 +16,5 @@ namespace BlApi
         public void addProduct(Product product);
         public void removeProduct(int productId);
         public void updateData(Product product);
-
     }
 }

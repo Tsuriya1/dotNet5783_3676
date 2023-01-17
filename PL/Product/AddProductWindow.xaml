@@ -7,10 +7,10 @@
         mc:Ignorable="d"
         Title="AddProductWindow" Height="450" Width="800">
     <Grid>
-        <TextBox Name="Id" HorizontalAlignment="Left" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="120" Margin="360,111,0,0"/>
-        <TextBox Name="Name" HorizontalAlignment="Left" TextWrapping="Wrap" Text="" Width="120" VerticalAlignment="Top" Margin="360,191,0,0"/>
-        <TextBox Name="Price" HorizontalAlignment="Left" Margin="360,231,0,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="120"/>
-        <TextBox Name="In_Stock" HorizontalAlignment="Left" Margin="360,271,0,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="120"/>
+        <TextBox x:Name="Id" HorizontalAlignment="Left" TextWrapping="Wrap" Text="{Binding ID}" VerticalAlignment="Top" Width="120" Margin="400,115,0,0" />
+        <TextBox x:Name="Name" HorizontalAlignment="Left" TextWrapping="Wrap" Text="{Binding Name}" Width="120" VerticalAlignment="Top" Margin="400,195,0,0"/>
+        <TextBox x:Name="Price" HorizontalAlignment="Left" Margin="400,235,0,0" TextWrapping="Wrap" Text="{Binding Price}" VerticalAlignment="Top" Width="120"/>
+        <TextBox x:Name="In_Stock" HorizontalAlignment="Left" Margin="400,275,0,0" TextWrapping="Wrap" Text="{Binding In_stock}" VerticalAlignment="Top" Width="120"/>
 
         <Label Content="Id:" HorizontalAlignment="Left" Margin="278,111,0,0" VerticalAlignment="Top"/>
         <Label Content="Category:" HorizontalAlignment="Left" Margin="278,148,0,0" VerticalAlignment="Top"/>
@@ -18,8 +18,8 @@
         <Label Content="Price:" HorizontalAlignment="Left" Margin="278,231,0,0" VerticalAlignment="Top"/>
         <Label Content="In Stock:" HorizontalAlignment="Left" Margin="278,267,0,0" VerticalAlignment="Top"/>
 
-        <ComboBox Name ="CategorySelector"  HorizontalAlignment="Left" Margin="360,150,0,0" VerticalAlignment="Top" Width="120"/>
-        <Button Content="Add" Click="Add_Button_Click" HorizontalAlignment="Left" Margin="400,329,0,0" VerticalAlignment="Top"/>
+        <ComboBox Name ="CategorySelector" ItemsSource="{Binding Categories_update}" SelectedItem="{Binding Category_update}" HorizontalAlignment="Left" Margin="400,152,0,0" VerticalAlignment="Top" Width="120"/>
+        <Button Content="Add" Click="Add_Button_Click" HorizontalAlignment="Left" Margin="447,330,0,0" VerticalAlignment="Top"/>
 
     </Grid>
 </Window>
