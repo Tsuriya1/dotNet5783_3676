@@ -123,7 +123,7 @@ internal class DalOrderItem : IOrderItem
     public IEnumerable< OrderItem?> get(DalFacade.DO.Order order)
     {
         int count;
-        count = Dal.DataSource.orderItemList.Count(x=> (x.HasValue&& x.Value.OrderId == order.ID));
+        count = Dal.DataSource.orderItemList.Count(x=> ((x.HasValue)&&( x.Value.OrderId == order.ID)));
         /*for (int i = 0; i < Dal.DataSource.orderItemList.Count; i++)
         {
 

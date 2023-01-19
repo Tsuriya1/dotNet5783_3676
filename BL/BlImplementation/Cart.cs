@@ -56,9 +56,9 @@ namespace BlImplementation
             {
                 throw new BO.StockError("the product is out of stock");
             }
-            int maxId = -1;
+            int maxId = 0;
             //          for (int i = 0; i < cart.Items.Count; i++)
-            if (cart.Items != null)
+            if (cart.Items.Any())
             {
                 maxId = cart.Items.Max(x =>
                 {
@@ -93,7 +93,6 @@ namespace BlImplementation
                     a.Amount = 1;
                     a.Amount += item.Amount;
                     a.TotalPrice = a.Price * a.Amount;
-                    a.TotalPrice = item.TotalPrice + a.TotalPrice;
                     
                     delete_item(cart,item.ID);
                     cart.Items.Add(a);
@@ -249,7 +248,7 @@ namespace BlImplementation
         {
             DalFacade.DO.OrderItem orderItem = new DalFacade.DO.OrderItem();
 
-            if (item.HasValue)
+            if (item.HasValue==null)
             {
                 return false;
 
@@ -283,12 +282,16 @@ namespace BlImplementation
             DalFacade.DO.Order order = new DalFacade.DO.Order();
             order.OrderDate = DateTime.Now;
             order.CustumerAdress = cart.CustomerAddress;
-            order.CustumerAdress = cart.CustomerEmail;
+            order.CustumerEmail = cart.CustomerEmail;
             order.CustumerName = cart.CustomerName;
             int id = Dal.Order.add(order);
-            DalFacade.DO.OrderItem orderItem = new DalFacade.DO.OrderItem();
 
-            cart.Items.Select(x => add_order_item(x,id));
+            DalFacade.DO.OrderItem orderItem = new DalFacade.DO.OrderItem();
+            foreach (BO.OrderItem item in cart.Items)
+            {
+                add_order_item(item, id);
+            }
+            
             
         }
 

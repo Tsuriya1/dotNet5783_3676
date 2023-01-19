@@ -135,6 +135,23 @@ namespace BlImplementation
                 throw new NotValidValue ("Product ID < 0");
             }
         }
+
+        private ProductItem convertProduct2productItem(DalFacade.DO.Product product)
+        {
+            ProductItem newProduct = new ProductItem();
+            newProduct.Price = product.Price;
+            newProduct.Name = product.Name;
+            newProduct.ID = product.ID;
+            // check this:
+            newProduct.Amount = product.InStock;
+            if (product.InStock > 0)
+            {
+                newProduct.InStock = true;
+            }
+            newProduct.Category = ConvertCategory(product);
+            return newProduct;
+        }
+
         public ProductItem getProductsDetails(int ID, BO.Cart cart)
         {
             if (ID > 0)
@@ -148,21 +165,20 @@ namespace BlImplementation
                 {
                     throw new NotFoundError ("product not found",e);
                 }
-                ProductItem newProduct = new ProductItem();
-                newProduct.Price = product.Price;
-                newProduct.Name = product.Name;
-                newProduct.ID = product.ID;
-                // check this:
-                newProduct.Amount = product.InStock;
-                if (product.InStock > 0)
-                {
-                    newProduct.InStock = true;
-                }
-                newProduct.Category = ConvertCategory(product);
-                return newProduct;
+                return convertProduct2productItem(product);
+            
             }
             throw new NotValidValue ("Product ID < 0");
         }
+
+        public IEnumerable<ProductItem> getCatalog()
+        {
+            IEnumerable<DalFacade.DO.Product> products = Dal.Product.get();
+            IEnumerable<ProductItem> newCatalog = products.Select(x => convertProduct2productItem(x)); 
+            return newCatalog;
+
+        }
+
         public void addProduct(BO.Product product)
         {
             DalFacade.DO.Product newProduct = new DalFacade.DO.Product();

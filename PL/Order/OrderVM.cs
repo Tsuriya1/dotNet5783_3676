@@ -54,6 +54,40 @@ namespace PL.Order
             get { return order; }
             set { Set(ref order, value); }
         }
+        private string stringItem;
+        public string StringItem
+        {
+            get { return stringItem; }
+            set { Set(ref stringItem, value); }
+        }
+
+        private BO.Order bo_order;
+        public BO.Order BO_Order
+        {
+            get { return bo_order; }
+            set { Set(ref bo_order, value); }
+        }
+
+        private BO.OrderStatus status;
+        public BO.OrderStatus Status
+        {
+            get { return status; }
+            set { Set(ref status, value); }
+        }
+
+        private int id;
+        public int ID
+        {
+            get { return id; }
+            set { Set(ref id, value); }
+        }
+        
+        private ObservableCollection<Tuple<DateTime?, string?>?> orderTrackingDesciption;
+        public ObservableCollection<Tuple<DateTime?, string?>?> OrderTrackingDesciption
+        {
+            get { return orderTrackingDesciption; }
+            set { Set(ref orderTrackingDesciption, value); }
+        }
 
         public ObservableCollection<BO.OrderForList> Orders
         {

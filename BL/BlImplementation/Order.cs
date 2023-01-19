@@ -44,6 +44,10 @@ namespace BlImplementation
             IEnumerable<DalFacade.DO.Order> orders = Dal.Order.get();
 
             //List<OrderForList?> list_of_ordersForList = new List<OrderForList?>();
+            /*foreach(DalFacade.DO.Order item in orders)
+            {
+                convert2_order_list(item);
+            }*/
             var list_of_ordersForList = from DalFacade.DO.Order order in orders
                                         let orderForList = convert2_order_list(order)
                                         select orderForList;
@@ -163,6 +167,23 @@ namespace BlImplementation
             }
             orderTracking.Status = BOorder.Status;
             orderTracking.ID = BOorder.ID;
+            orderTracking.description = new List<Tuple<DateTime?, string?>?>();
+            if(BOorder.OrderDate < DateTime.Now )
+            {
+                orderTracking.description.Add(new Tuple<DateTime?, string?>(BOorder.OrderDate, "order was created"));
+            }
+            if(BOorder.PaymentDate < DateTime.Now)
+            {
+                orderTracking.description.Add(new Tuple<DateTime?, string?>(BOorder.PaymentDate, "get payment"));
+            }
+            if (BOorder.DeliveryDate < DateTime.Now)
+            {
+                orderTracking.description.Add(new Tuple<DateTime?, string?>(BOorder.DeliveryDate, "order was delivery"));
+            }
+            if (BOorder.ShipDate < DateTime.Now)
+            {
+                orderTracking.description.Add(new Tuple<DateTime?, string?>(BOorder.ShipDate, "order was shipped"));
+            }
             return orderTracking;
         }
 

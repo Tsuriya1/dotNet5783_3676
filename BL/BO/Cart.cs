@@ -6,20 +6,20 @@ using System.Threading.Tasks;
 
 namespace BO
 {
-    public struct Cart
+    public class Cart
     {
-            public string? CustomerName { get; set; }
-            public string? CustomerEmail { get; set; }
-            public string? CustomerAddress { get; set; }
-            public List <OrderItem?>? Items { get; set; }
-            public double TotalPrice { get; set; }
 
-            public override string ToString() => $@"
+        public string? CustomerName { get; set; }
+        public string? CustomerEmail { get; set; }
+        public string? CustomerAddress { get; set; }
+        public List <OrderItem?>? Items { get; set; } = new List<OrderItem?>();
+        public double TotalPrice { get; set; }
+
+        public override string ToString() => $@"
           
-            CustumerName: {CustomerName} ,
-            CustumerEmail: {CustomerEmail},
-            CustumerAdress: {CustomerAddress},
-            Items: {Items},
-            TotalPrice: {TotalPrice}";
+        CustumerName: {CustomerName} ,
+        CustumerEmail: {CustomerEmail},
+        CustumerAdress: {CustomerAddress},
+        TotalPrice: {TotalPrice}";
     }
 }

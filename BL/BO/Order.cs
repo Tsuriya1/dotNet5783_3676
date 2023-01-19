@@ -20,17 +20,58 @@ namespace BO
         public IEnumerable<DalFacade.DO.OrderItem?>? Items { get; set; }
         public double TotalPrice { get; set; }
 
-        public override string ToString() => $@"
-        ID: {ID},
-        CustumerName: {CustumerName} ,
-        CustumerEmail: {CustumerEmail},
-        CustumerAdress: {CustumerAdress},
-        OrderDate: {OrderDate},
-        Status: {Status},
-        PaymentDate: {PaymentDate},
-        DeliveryDate: {DeliveryDate},
-        ShipDate: {ShipDate},
-        Items: {Items},
-        Total Price: {TotalPrice}";
+        public override string ToString()
+        {
+            string order = $@"
+                    ID: {ID},
+                    CustumerName: {CustumerName} ,
+                    CustumerEmail: {CustumerEmail},
+                    CustumerAdress: {CustumerAdress},
+                    Status: {Status},
+                    ";
+            if (OrderDate == null){
+                order += @$"OrderDate: no date found ,
+                    ";
+            }
+            else
+            {
+                order += $@"OrderDate: {OrderDate} ,
+                    ";
+            }
+            if (PaymentDate == null)
+            {
+                order += @$"PaymentDate: no date found ,
+                    ";
+            }
+            else
+            {
+                order += $@"PaymentDate: {PaymentDate} ,
+                    ";
+            }
+            if (DeliveryDate == null)
+            {
+                order += @$"DeliveryDate: no date found ,
+                    ";
+            }
+            else
+            {
+                order += $@"DeliveryDate: {DeliveryDate} ,
+                    ";
+            }
+            if (ShipDate == null)
+            {
+                order += @$"ShipDate: no date found ,
+                    ";
+            }
+            else
+            {
+                order += $@"ShipDate: {ShipDate} ,
+                    ";
+            }
+            order += $@"Total Price: {TotalPrice}";
+            
+            return order;
+            
+        }
     }
 }

@@ -22,6 +22,6 @@ namespace BO
         Price: {Price},
         Category: {Category},
         Amount: {Amount},
-        Total In Stock: {InStock}";
+        In Stock? {InStock}";
     }
 }

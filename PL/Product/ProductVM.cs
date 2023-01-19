@@ -54,6 +54,7 @@ public class RelayCommand<T>:ICommand
     {
         private BlApi.IBl? bl = BlApi.Factory.get();
         public CollectionViewSource productsCollectionFilter;
+        public CollectionViewSource productsItemCollectionFilter;
         private BO.Category category;
         private BO.Category category_update;
 
@@ -62,6 +63,8 @@ public class RelayCommand<T>:ICommand
 
         private bool allCat = false;
         public ICommand update => new RelayCommand<int>(update_prod);
+        public ICommand viewItem => new RelayCommand<int>(viewItemFunc);
+
 
         private ObservableCollection<ProductForList> products;
 
@@ -94,6 +97,7 @@ public class RelayCommand<T>:ICommand
             {
                 Set(ref category, value);
                 ProductsCollectionFilter.View.Refresh();
+                ProductsItemCollectionFilter.View.Refresh();
             }
         }
 
@@ -112,46 +116,66 @@ public class RelayCommand<T>:ICommand
             new Product.UpdateAndActionsWindow(ID,this).Show();
         }
 
+        private void viewItemFunc(int itemID)
+        {
+            productItem = bl.Product.getProductsDetails(itemID,myCart);
+            new Product.ProductItemWindow(this).Show();
+        }
+        
         public ProductVM()
         {
             
             products = new ObservableCollection<BO.ProductForList>(bl.Product.GetProducts().Where(x => x.HasValue).Select(x => x.Value));
             productsCollectionFilter = new();
             productsCollectionFilter.Source = products;
+            productsItemCollectionFilter = new();
+            productsItemCollectionFilter.Source = new ObservableCollection<BO.ProductItem>(bl.Product.getCatalog());
             category = BO.Category.All_Types;
+            productsItemCollectionFilter.Filter+= new FilterEventHandler(categoryFilter);
             productsCollectionFilter.Filter += new FilterEventHandler(categoryFilter);
-            
-            
-
         }
 
         public void categoryFilter(object sender, FilterEventArgs e)
         {
-
-            if(e.Item is BO.ProductForList product)
+            BO.Category categoryToCheck; 
+            if (e.Item is BO.ProductForList product)
             {
-                if (category == BO.Category.All_Types)
-                {
-                    e.Accepted = true;
-                    return;
-                }
-                if(product.Category == category)
-                {
-                    e.Accepted = true;
-                }
-                else
-                {
-                    e.Accepted = false;
-                }
+                categoryToCheck = product.Category.Value;
+            }else if(e.Item is BO.ProductItem item)
+            {
+                categoryToCheck = item.Category.Value;
+            }
+            else
+            {
+                e.Accepted = true;
                 return;
             }
-            e.Accepted = true;
+
+            if (category == BO.Category.All_Types)
+            {
+                e.Accepted = true;
+                return;
+            }
+            if (categoryToCheck == category)
+            {
+                e.Accepted = true;
+            }
+            else
+            {
+                e.Accepted = false;
+            }
+            return;
+
 
         }
 
 
 
-
+        public CollectionViewSource ProductsItemCollectionFilter
+        {
+            get { return productsItemCollectionFilter; }
+            set { Set(ref productsItemCollectionFilter, value); }
+        }
 
         public CollectionViewSource ProductsCollectionFilter
         {
@@ -187,11 +211,19 @@ public class RelayCommand<T>:ICommand
             set { Set(ref id, value); }
         }
 
+        private ProductItem productItem;
+        public ProductItem ProductItem
+        {
+            get { return productItem; }
+            set { Set(ref productItem, value); }
+        }
 
-
-
-
-
+        private BO.Cart myCart;
+        public BO.Cart Mycart
+        {
+            get { return myCart; }
+            set { Set(ref myCart, value); }
+        }
 
         private void Set<T>(ref T prop, T val, [CallerMemberName] string? name = "")
         {

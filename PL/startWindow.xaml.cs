@@ -1,5 +1,4 @@
-﻿using BlApi;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -11,37 +10,33 @@ using System.Windows.Documents;
 using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
 using System.Windows.Shapes;
 
 namespace PL
 {
     /// <summary>
-    /// Interaction logic for MainWindow.xaml
+    /// Interaction logic for startWindow.xaml
     /// </summary>
-    public partial class MainWindow : Window
+    public partial class startWindow : Window
     {
-        public MainWindow()
+        public startWindow()
         {
             InitializeComponent();
         }
 
         private void Manager_Click(object sender, RoutedEventArgs e)
         {
-            new manager().Show();
-            Close();
 
         }
 
         private void New_Order_Click(object sender, RoutedEventArgs e)
         {
-            new Product.ProductItemListView().Show();
+
         }
 
         private void Track_Your_Order_Click_2(object sender, RoutedEventArgs e)
         {
-            new Order.enterOrderTracking().Show();
-            Close();
+
         }
     }
 }

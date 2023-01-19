@@ -14,17 +14,7 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <None Remove="Order\PIE T4 VS T5 .png" />
-    <None Remove="Order\WhatsApp Image 2022-12-22 at 07.00.40.jpeg" />
-  </ItemGroup>
-
-  <ItemGroup>
     <ProjectReference Include="..\BL\BL.csproj" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <Resource Include="Order\PIE T4 VS T5 .png" />
-    <Resource Include="Order\WhatsApp Image 2022-12-22 at 07.00.40.jpeg" />
   </ItemGroup>
 
 </Project>
