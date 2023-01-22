@@ -12,8 +12,6 @@ internal class DalOrder : IOrder
     {
         order.ID = Dal.DataSource.Config.getOrderId();
         DataSource.ordersList.Add(order);
-        //DataSource.ordersList[Dal.DataSource.Config.orderInx] = order;
-        //Dal.DataSource.Config.orderInx++;
         return order.ID;
     }
 
@@ -28,19 +26,6 @@ internal class DalOrder : IOrder
             return orders.First();
         }
         throw new DalFacade.DO.NotFoundException("order not found");
-
-        /**
-        for (int i = 0; i < len; i++)
-        {
-            if (DataSource.ordersList[i].HasValue)
-            {
-                if (DataSource.ordersList[i].Value.ID == ID)
-                {
-                    return Dal.DataSource.ordersList[i].Value;    
-                }
-            }
-            
-        }**/
     }
     public Order getObject(Func<Order, bool>? func)
     {
@@ -71,27 +56,6 @@ internal class DalOrder : IOrder
 
         return orders;
 
-
-        /*
-                for (int i = 0; i < DataSource.ordersList.Count; i++)
-                {
-                    if (!Dal.DataSource.ordersList[i].HasValue)
-                    {
-                        continue;
-                    }
-                    if (func != null)
-                    {
-                        if (func(Dal.DataSource.ordersList[i].Value))
-                        {
-                            orders.Add(Dal.DataSource.ordersList[i].Value);
-                        }
-                    }
-                    else
-                    {
-                        orders.Add(Dal.DataSource.ordersList[i].Value);
-                    }
-                }*/
-
     }
 
     public void delete(int ID)
@@ -101,19 +65,6 @@ internal class DalOrder : IOrder
         {
             throw new DalFacade.DO.NotFoundException("order not found");
         }
-
-        /*for (int i = 0; i < DataSource.ordersList.Count; i++)
-        {
-            if (DataSource.ordersList[i].Value.ID == ID)
-            {
-                DataSource.ordersList.Remove(DataSource.ordersList[i]);
-                return;
-            }
-        }
-
-
-        
-        throw new DalFacade.DO.NotFoundException ("order not found");*/
     }
 
     public void update(DalFacade.DO.Order order)
@@ -126,15 +77,7 @@ internal class DalOrder : IOrder
             DataSource.ordersList.Add(order);
             return;
         }
-        /*for (int i = 0; i < DataSource.ordersList.Count; i++)
-        {
-            if (Dal.DataSource.ordersList[i].Value.ID == order.ID)
-            {
-                DataSource.ordersList.Insert(i, order);
-           
-                return;
-            }
-        }*/
+
         throw new DalFacade.DO.NotFoundException("order not found");
     }
 

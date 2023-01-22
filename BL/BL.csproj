@@ -15,6 +15,7 @@
   <ItemGroup>
     <ProjectReference Include="..\DalList\DalList.csproj" />
     <ProjectReference Include="..\DalFacade\DalFacade.csproj" />
+    <ProjectReference Include="..\DalXml\DalXml.csproj" />
   </ItemGroup>
   <ItemGroup>
     <None Remove="BO\" />

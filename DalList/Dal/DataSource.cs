@@ -10,13 +10,10 @@ internal static class DataSource
     static internal int readOnly;
 
     static internal List<DalFacade.DO.Order?> ordersList = new List<DalFacade.DO.Order?>();
-    //static internal DalFacade.DO.Order[] ordersList = new DalFacade.DO.Order[100];
 
     static internal List<DalFacade.DO.OrderItem?> orderItemList = new List<DalFacade.DO.OrderItem?>();
-    //static internal DalFacade.DO.OrderItem[] ordersItemList = new DalFacade.DO.OrderItem[200];
 
     static internal List<DalFacade.DO.Product?> productList = new List<DalFacade.DO.Product?>();
-    //static internal DalFacade.DO.Product[] productList = new DalFacade.DO.Product[50];
 
     internal static class Config{
      
