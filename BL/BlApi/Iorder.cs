@@ -15,5 +15,6 @@ namespace BlApi
         public Order updateShipping(int ID);
         public Order updateSupply (int ID);
         public OrderTracking OrderTrack(int ID);
+        public int? getOldestOrder();
     }
 }

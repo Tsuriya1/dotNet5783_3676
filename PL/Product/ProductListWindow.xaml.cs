@@ -4,6 +4,7 @@ using DalFacade.DO;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.ComponentModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -34,6 +35,11 @@ namespace PL.Product
         }
         private void add_Button_Click(object sender, RoutedEventArgs e) { 
             new Product.AddProductWindow(productVM).Show();
+        }
+        
+        private void DataWindow_Closing(object sender, CancelEventArgs e)
+        {
+            new manager().Show();
         }
     }
 }

@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -34,6 +35,12 @@ namespace PL.Product
         private void add_Button_Click(object sender, RoutedEventArgs e)
         {
             new Cart.cartView(vm.Mycart).Show();
+            //Close();
+        }
+
+        private void DataWindow_Closing(object sender, CancelEventArgs e)
+        {
+            new MainWindow().Show();
         }
     }
 }

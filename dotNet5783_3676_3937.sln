@@ -33,7 +33,9 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "xml", "xml", "{F0613B0A-463
 		xml\dal-config.xml = xml\dal-config.xml
 	EndProjectSection
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DalXml", "DalXml\DalXml.csproj", "{7789CDD4-7D2E-486C-A8E1-454B0301F00F}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DalXml", "DalXml\DalXml.csproj", "{7789CDD4-7D2E-486C-A8E1-454B0301F00F}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Simulator", "Simulator\Simulator.csproj", "{C34C05DB-B6EA-4299-A673-CA88A7BC7E02}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -77,6 +79,10 @@ Global
 		{7789CDD4-7D2E-486C-A8E1-454B0301F00F}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{7789CDD4-7D2E-486C-A8E1-454B0301F00F}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{7789CDD4-7D2E-486C-A8E1-454B0301F00F}.Release|Any CPU.Build.0 = Release|Any CPU
+		{C34C05DB-B6EA-4299-A673-CA88A7BC7E02}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{C34C05DB-B6EA-4299-A673-CA88A7BC7E02}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{C34C05DB-B6EA-4299-A673-CA88A7BC7E02}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{C34C05DB-B6EA-4299-A673-CA88A7BC7E02}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

@@ -36,12 +36,18 @@ namespace PL
         private void New_Order_Click(object sender, RoutedEventArgs e)
         {
             new Product.ProductItemListView().Show();
+            Close();
         }
 
         private void Track_Your_Order_Click_2(object sender, RoutedEventArgs e)
         {
             new Order.enterOrderTracking().Show();
             Close();
+        }
+
+        private void simulation_Click(object sender, RoutedEventArgs e)
+        {
+            new simulatorWindow().Show();
         }
     }
 }

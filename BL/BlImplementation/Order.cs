@@ -24,7 +24,7 @@ namespace BlImplementation
             orderForList.CustomerName = order.CustumerName;
             IEnumerable<DalFacade.DO.OrderItem?> temp = Dal.OrderItem.get(order);
             orderForList.AmountOfItems = temp.Count();
-            orderForList.status = OrderStatus.Confirmed;        // "confirmed" is the default value
+            orderForList.status = getStatus(order);        // "confirmed" is the default value
             int sumOfAmount = 0;
             double sumOfprice = 0;
             foreach (DalFacade.DO.OrderItem item in temp)
@@ -53,6 +53,23 @@ namespace BlImplementation
                                         select orderForList;
             return list_of_ordersForList;
         }
+        
+        private OrderStatus getStatus(DalFacade.DO.Order order)
+        {
+            if (order.DeliveryDate != null)
+            {
+                return OrderStatus.provided;
+            }else if(order.ShipDate != null)
+            {
+                return OrderStatus.sent;
+
+            }
+            else
+            {
+                return OrderStatus.Confirmed;
+            }
+        }
+
         public BO.Order getOrderDetails(int ID)
         {
             if (ID > 0)
@@ -72,7 +89,7 @@ namespace BlImplementation
                 BOorder.CustumerEmail = order.CustumerEmail;
                 BOorder.CustumerAdress = order.CustumerAdress;
                 BOorder.OrderDate = order.OrderDate;
-                BOorder.Status = OrderStatus.Confirmed;          // "confirmed" is the default value (??)
+                BOorder.Status = getStatus(order);          // "confirmed" is the default value (??)
                 BOorder.DeliveryDate = order.DeliveryDate;
                 BOorder.ShipDate = order.ShipDate;
                 BOorder.PaymentDate = null;
@@ -102,7 +119,7 @@ namespace BlImplementation
                 throw new NotFoundError ("order not found",e);
             }
             var date = DateTime.Now;
-            if (order.ShipDate > DateTime.Now)
+            if (order.ShipDate == null || (order.ShipDate > DateTime.Now))
             {
                 BO.Order BOorder = getOrderDetails(ID);
                 order.ShipDate = DateTime.Now;
@@ -118,7 +135,7 @@ namespace BlImplementation
                 return BOorder;
 
             }
-                throw new StatusError("the order is already shipped");
+            throw new StatusError("the order is already shipped");
         }
         public BO.Order updateSupply(int ID)
         {
@@ -131,13 +148,15 @@ namespace BlImplementation
             {
                 throw new NotFoundError ("order not found",e);
             }
-            if ((order.DeliveryDate < DateTime.Now )|| order.DeliveryDate == null)
+            if (order.ShipDate != null && (order.ShipDate < DateTime.Now ))
             {
+                //order.DeliveryDate == null || (order.DeliveryDate < DateTime.Now )
                 BO.Order BOorder = getOrderDetails(ID);
-                if(BOorder.Status != OrderStatus.provided)
+                if(order.DeliveryDate == null || (order.DeliveryDate > DateTime.Now))
                 {
                     order.DeliveryDate = DateTime.Now;
                     BOorder.DeliveryDate = DateTime.Now;
+                    BOorder.Status = OrderStatus.provided;
                     try
                     {
                         Dal.Order.update(order);
@@ -200,6 +219,35 @@ namespace BlImplementation
                 return list_of_ordersForList.First().Value;
             }
             throw new NotFoundError("order not found");
+        }
+
+        public int? getOldestOrder()
+        {
+            IEnumerable<DalFacade.DO.Order> orders = Dal.Order.get();
+            int id_older = -1;
+            DateTime minTime = DateTime.Now;
+            foreach (DalFacade.DO.Order order in orders)
+            {
+                if (order.DeliveryDate != null)
+                {
+                    continue;
+                }
+                if (order.ShipDate != null && order.ShipDate < minTime)
+                {
+                    id_older = order.ID;
+                    minTime = order.ShipDate.Value;
+                }else if (order.OrderDate!=null && order.OrderDate < minTime)
+                {
+                    id_older = order.ID;
+                    minTime = order.OrderDate.Value;
+                }
+            }
+            if(id_older != -1)
+            {
+                return id_older;    
+            }
+            return null;
+
         }
     }
 }

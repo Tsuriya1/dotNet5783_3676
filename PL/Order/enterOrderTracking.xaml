@@ -5,6 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:PL.Order"
         mc:Ignorable="d"
+        Closing="DataWindow_Closing" 
         Title="enterOrderTracking" Height="450" Width="800">
     <Grid>
         <Button Content="SUBMIT" Click="Button_Click" HorizontalAlignment="Left" Margin="384,237,0,0" VerticalAlignment="Top"/>

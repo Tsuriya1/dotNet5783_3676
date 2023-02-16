@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -20,6 +21,8 @@ namespace PL
     public partial class manager : Window
     {
         private BlApi.IBl? bl = BlApi.Factory.get();
+        bool click_order = false;
+        bool click_product = false;
         public manager()
         {
             InitializeComponent();
@@ -28,11 +31,23 @@ namespace PL
         private void Button_Click(object sender, RoutedEventArgs e)
         {
             new Product.ProductListWindow().Show();
+            click_product = true;
             Close();
         }
+
+        private void DataWindow_Closing(object sender, CancelEventArgs e)
+        {
+            if (click_order || click_product)
+            {
+                return;
+            }
+            new MainWindow().Show();
+        }
+
         private void Order_button(object sender, RoutedEventArgs e)
         {
             new Order.OrdersView().Show();
+            click_order = true;
             Close();
         }
     }

@@ -1,6 +1,7 @@
 ﻿using PL.Product;
 using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -28,6 +29,10 @@ namespace PL.Order
             OrderVM orderVM;
             orderVM = new OrderVM();
             this.DataContext = orderVM;
+        }
+        private void DataWindow_Closing(object sender, CancelEventArgs e)
+        {
+            new MainWindow().Show();
         }
 
     }

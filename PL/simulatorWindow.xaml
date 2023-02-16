@@ -1,0 +1,18 @@
+﻿<Window x:Class="PL.simulatorWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:PL"
+        mc:Ignorable="d"
+        WindowStyle="None"
+        Title="simulatorWindow" Height="450" Width="800">
+    <Grid>
+        <Button Content="finish simulation" HorizontalAlignment="Center" Margin="0,366,0,0" VerticalAlignment="Top" RenderTransformOrigin="-0.48,0.268" Click="Stop_sim_click" FontFamily="Ink Free"/>
+        <TextBlock HorizontalAlignment="Left" Margin="159,277,0,0" TextWrapping="Wrap" Text="{Binding CurrentStatus}" VerticalAlignment="Top" Height="38" Width="121"/>
+        <TextBlock HorizontalAlignment="Left" Margin="614,277,0,0" TextWrapping="Wrap" Text="{Binding NextStatus}" VerticalAlignment="Top" Height="35" Width="101"/>
+        <TextBlock HorizontalAlignment="Left" Margin="368,201,0,0" TextWrapping="Wrap" Text="{Binding ID}" VerticalAlignment="Top"/>
+        <TextBlock HorizontalAlignment="Left" Text="{Binding clock}" Margin="614,35,0,0" TextWrapping="Wrap" VerticalAlignment="Top"/>
+
+    </Grid>
+</Window>
