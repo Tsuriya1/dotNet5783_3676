@@ -8,11 +8,21 @@
         WindowStyle="None"
         Title="simulatorWindow" Height="450" Width="800">
     <Grid>
-        <Button Content="finish simulation" HorizontalAlignment="Center" Margin="0,366,0,0" VerticalAlignment="Top" RenderTransformOrigin="-0.48,0.268" Click="Stop_sim_click" FontFamily="Ink Free"/>
-        <TextBlock HorizontalAlignment="Left" Margin="159,277,0,0" TextWrapping="Wrap" Text="{Binding CurrentStatus}" VerticalAlignment="Top" Height="38" Width="121"/>
-        <TextBlock HorizontalAlignment="Left" Margin="614,277,0,0" TextWrapping="Wrap" Text="{Binding NextStatus}" VerticalAlignment="Top" Height="35" Width="101"/>
-        <TextBlock HorizontalAlignment="Left" Margin="368,201,0,0" TextWrapping="Wrap" Text="{Binding ID}" VerticalAlignment="Top"/>
-        <TextBlock HorizontalAlignment="Left" Text="{Binding clock}" Margin="614,35,0,0" TextWrapping="Wrap" VerticalAlignment="Top"/>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="3*"/>
+            <ColumnDefinition Width="5*"/>
+        </Grid.ColumnDefinitions>
+        <Button Content="finish simulation" HorizontalAlignment="Left" Margin="39,403,0,0" VerticalAlignment="Top" RenderTransformOrigin="-0.48,0.268" Click="Stop_sim_click" FontFamily="Ink Free" Grid.Column="1"/>
+        <TextBlock HorizontalAlignment="Left" Margin="159,283,0,0" TextWrapping="Wrap" Text="{Binding CurrentStatus}" VerticalAlignment="Top" Height="38" Width="171" Grid.ColumnSpan="2"/>
+        <TextBlock HorizontalAlignment="Left" Margin="314,283,0,0" TextWrapping="Wrap" Text="{Binding NextStatus}" VerticalAlignment="Top" Height="35" Width="176" Grid.Column="1"/>
+        <TextBlock HorizontalAlignment="Left" Margin="68,201,0,0" TextWrapping="Wrap" Text="{Binding ID}" VerticalAlignment="Top" Grid.Column="1"/>
+        <TextBlock HorizontalAlignment="Left" Text="{Binding clock}" Margin="314,35,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Grid.Column="1"/>
+        <Label Grid.Column="1" Content="Next Status" HorizontalAlignment="Left" Margin="154,283,0,0" VerticalAlignment="Top" RenderTransformOrigin="-1.766,-1.803"/>
+        <Label Content="Current Status" HorizontalAlignment="Left" Margin="22,278,0,0" VerticalAlignment="Top" RenderTransformOrigin="-1.766,-1.803"/>
+        <TextBlock HorizontalAlignment="Left" Margin="159,343,0,0" TextWrapping="Wrap" Text="{Binding StartingTime}" VerticalAlignment="Top" Height="38" Width="171" Grid.ColumnSpan="2"/>
+        <Label Content="Starting Working Time" HorizontalAlignment="Left" Margin="22,343,0,0" VerticalAlignment="Top" RenderTransformOrigin="-1.766,-1.803"/>
+        <TextBlock HorizontalAlignment="Left" Margin="292,343,0,0" TextWrapping="Wrap" Text="{Binding EndTime}" VerticalAlignment="Top" Height="38" Width="208" Grid.Column="1"/>
+        <Label Content="Expected Finish Time" HorizontalAlignment="Left" Margin="154,343,0,0" VerticalAlignment="Top" RenderTransformOrigin="-1.766,-1.803" Grid.Column="1"/>
 
     </Grid>
 </Window>

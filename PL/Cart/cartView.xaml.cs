@@ -2,6 +2,7 @@
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.ComponentModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -23,12 +24,15 @@ namespace PL.Cart
     {
         private BlApi.IBl? bl = BlApi.Factory.get();
         private cartVm vm;
+        bool confirm_was_click = false;
         BO.Cart cart;
+        Product.ProductItemListView? productItemList;
 
-        public cartView(BO.Cart cart1)
+        public cartView(BO.Cart cart1,Product.ProductItemListView? productItemListView=null)
         {
             InitializeComponent();
             cart = cart1;
+            productItemList = productItemListView;
             vm = new Cart.cartVm(cart1);
             DataContext = vm;
         }
@@ -74,7 +78,20 @@ namespace PL.Cart
         }
         private void confirm_Click(object sender, RoutedEventArgs e)
         {
-            new Cart.cartConfirmView(this.vm).Show();
+            new Cart.cartConfirmView(this.vm, productItemList).Show();
+            confirm_was_click = true;
+            Close();
         }
+
+        private void DataWindow_Closing(object sender, CancelEventArgs e)
+        {
+
+            if (confirm_was_click)
+            {
+                return;
+            }
+            new Product.ProductItemListView(this.cart).Show();
+        }
+
     }
 }

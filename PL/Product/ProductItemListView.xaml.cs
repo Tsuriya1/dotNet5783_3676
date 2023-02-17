@@ -22,10 +22,18 @@ namespace PL.Product
     {
         BO.Cart cart;
         ProductVM vm;
-        public ProductItemListView()
+        bool add_click = false;
+        public ProductItemListView(BO.Cart cart = null)
         {
             InitializeComponent();
-            this.cart = new BO.Cart();
+            if(cart == null)
+            {
+                this.cart = new BO.Cart();
+            }
+            else
+            {
+                this.cart = cart;
+            }
             
             vm = new ProductVM();
             vm.Mycart = this.cart;
@@ -35,11 +43,16 @@ namespace PL.Product
         private void add_Button_Click(object sender, RoutedEventArgs e)
         {
             new Cart.cartView(vm.Mycart).Show();
-            //Close();
+            add_click = true;
+            Close();
         }
 
         private void DataWindow_Closing(object sender, CancelEventArgs e)
         {
+            if (add_click)
+            {
+                return;
+            }
             new MainWindow().Show();
         }
     }
