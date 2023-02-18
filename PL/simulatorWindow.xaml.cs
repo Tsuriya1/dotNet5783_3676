@@ -74,14 +74,16 @@ namespace PL
 
             ID = info.Item1.Value.ID;
             CurrentStatus = info.Item1.Value.Status;
-            StartingTime = DateTime.Now;
             EndTime = info.Item2;
             if (CurrentStatus == BO.OrderStatus.Confirmed)
             {
+                StartingTime = info.Item1.Value.OrderDate;
+
                 NextStatus = BO.OrderStatus.sent;
             }
             else if (CurrentStatus == BO.OrderStatus.sent)
             {
+                StartingTime = info.Item1.Value.ShipDate;
                 NextStatus = BO.OrderStatus.provided;
             }
         }

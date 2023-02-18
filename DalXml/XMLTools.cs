@@ -1,4 +1,5 @@
-﻿using System.Xml;
+﻿using System.Runtime.CompilerServices;
+using System.Xml;
 using System.Xml.Linq;
 using System.Xml.Serialization;
 
@@ -44,6 +45,7 @@ static class XMLTools
 
     public static XElement LoadListFromXMLElement(string entity)
     {
+       
         string filePath = $"{s_dir + entity}.xml";
         try
         {

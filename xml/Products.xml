@@ -1,0 +1,73 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<ArrayOfProduct xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+  <Product>
+    <ID>100000</ID>
+    <Name>toyota corolla</Name>
+    <Category>Family</Category>
+    <Price>140000</Price>
+    <InStock>4</InStock>
+  </Product>
+  <Product>
+    <ID>100001</ID>
+    <Name>mini minor</Name>
+    <Category>Mini</Category>
+    <Price>70000</Price>
+    <InStock>8</InStock>
+  </Product>
+  <Product>
+    <ID>100002</ID>
+    <Name>mercedes jeep</Name>
+    <Category>Exclusive</Category>
+    <Price>450000</Price>
+    <InStock>10</InStock>
+  </Product>
+  <Product>
+    <ID>100003</ID>
+    <Name>ford mustang</Name>
+    <Category>Sport</Category>
+    <Price>200000</Price>
+    <InStock>5</InStock>
+  </Product>
+  <Product>
+    <ID>100004</ID>
+    <Name>hyunday i25</Name>
+    <Category>Family</Category>
+    <Price>110000</Price>
+    <InStock>5</InStock>
+  </Product>
+  <Product>
+    <ID>100005</ID>
+    <Name>toyota motorcycle</Name>
+    <Category>Motorcycle</Category>
+    <Price>40000</Price>
+    <InStock>7</InStock>
+  </Product>
+  <Product>
+    <ID>100006</ID>
+    <Name>kia picanto</Name>
+    <Category>Mini</Category>
+    <Price>80000</Price>
+    <InStock>9</InStock>
+  </Product>
+  <Product>
+    <ID>100007</ID>
+    <Name>honda civic</Name>
+    <Category>Family</Category>
+    <Price>110000</Price>
+    <InStock>11</InStock>
+  </Product>
+  <Product>
+    <ID>100008</ID>
+    <Name>honda motorcycle</Name>
+    <Category>Motorcycle</Category>
+    <Price>55000</Price>
+    <InStock>6</InStock>
+  </Product>
+  <Product>
+    <ID>100009</ID>
+    <Name>audi jeep</Name>
+    <Category>Exclusive</Category>
+    <Price>350000</Price>
+    <InStock>8</InStock>
+  </Product>
+</ArrayOfProduct>

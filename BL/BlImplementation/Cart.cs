@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Data.SqlTypes;
 using System.Diagnostics;
 using System.Linq;
 using System.Security.Cryptography;
@@ -16,8 +17,7 @@ namespace BlImplementation
     {
         private IDal? Dal = DalApi.Factory.Get();
 
-
-
+        //private IDal? Dal1 = Dal.
         BO.Cart Icart.deleteItemFromCart(BO.Cart cart, int itemId)
         {
             return delete_item(cart, itemId);

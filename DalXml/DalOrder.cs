@@ -16,6 +16,10 @@ namespace Dal
             List< DalFacade.DO.Order?> ordersList = XMLTools.LoadListFromXMLSerializer<DalFacade.DO.Order>(entity_name);
             XElement Config = XMLTools.LoadListFromXMLElement("Config");
             order.ID = (int)Config.Element("OrderIdx");
+
+            Config.Element("OrderItemIndex")?.SetValue(order.ID + 1);
+
+            XMLTools.SaveListToXMLElement(Config, "Config");
             ordersList.Add(order);
             XMLTools.SaveListToXMLSerializer<DalFacade.DO.Order>(ordersList, entity_name);
             return order.ID;
@@ -92,6 +96,7 @@ namespace Dal
             {
 
                 delete(order.ID);
+                ordersList.RemoveAll(x => x.HasValue && x.Value.ID == order.ID);
                 ordersList.Add(order);
                 XMLTools.SaveListToXMLSerializer<DalFacade.DO.Order>(ordersList, entity_name);
                 return;
