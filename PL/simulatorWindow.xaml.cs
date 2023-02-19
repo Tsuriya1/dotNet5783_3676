@@ -35,7 +35,7 @@ namespace PL
         {
             this.DataContext = this;
             InitializeComponent();
-            
+            //create backround worker 
             clock_worker = new BackgroundWorker();
             clock_worker.DoWork += Worker_DoWork;
             clock_worker.ProgressChanged += Worker_ProgressChanged;
@@ -44,9 +44,10 @@ namespace PL
             clock_worker.WorkerSupportsCancellation = true;
             clock_worker.RunWorkerAsync();
             Simulator.Simulator.activate();
-
         }
 
+        //the backround worker register funcs to the sim events and update the clock once in a second by calling 
+        //report progress(ProgressChanged event) that call Worker_ProgressChanged 
         private void Worker_DoWork(object sender, DoWorkEventArgs e)
         {
             Simulator.Simulator.registerUpdateDate(update_handler);
@@ -87,6 +88,9 @@ namespace PL
                 NextStatus = BO.OrderStatus.provided;
             }
         }
+
+        //check what change accure : if clock-update the clock in the window, if order change update
+        //the properties that relevate to the order.
         private void Worker_ProgressChanged(object sender, ProgressChangedEventArgs e)
         {
             
@@ -102,7 +106,7 @@ namespace PL
             }
         }
 
-
+        //when the sim is update a status the function is run and update the windows with the new info by calling ReportProgress
         private void update_handler(BO.Order? order, DateTime date, int delay)
         {
             Tuple< BO.Order?, DateTime, int> info = new Tuple<BO.Order?, DateTime, int>(order, date, delay);
@@ -118,6 +122,8 @@ namespace PL
         {
             clock_worker.CancelAsync();
         }
+
+        //definition of dependecy property that binding to the windows
 
         public int? ID
         {
@@ -192,6 +198,7 @@ namespace PL
         public static readonly DependencyProperty NextStatusProperty =
             DependencyProperty.Register("NextStatus", typeof(BO.OrderStatus?), typeof(simulatorWindow), new PropertyMetadata(null));
 
+        //when the user click on stop simulation we finish the simulation .
         private void Stop_sim_click(object sender, RoutedEventArgs e)
         {
             Simulator.Simulator.stop_simulation();

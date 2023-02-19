@@ -5,6 +5,7 @@ using System.Security.Principal;
 using System.Text;
 using System.Threading.Tasks;
 
+// intefaces of three main entities
 namespace BlApi
 {
     public interface IBl

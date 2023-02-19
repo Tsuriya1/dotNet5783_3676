@@ -16,6 +16,7 @@ namespace Dal
     internal class DalProduct : Iproduct
     {
         const string entity_name = @"Products";
+        // addes a new product to the xml tree
         private XElement create_product_xelement(DalFacade.DO.Product product)
         {
             return new XElement("Product",
@@ -26,7 +27,7 @@ namespace Dal
                                    new XElement("InStock", product.InStock)
                                    );
         }
-
+        // exports it as a product (from XElement)
         private DalFacade.DO.Product convert_xelement_to_product(XElement prod)
         {
 
@@ -42,23 +43,27 @@ namespace Dal
         }
 
 
-
+        // add to the tree
         public int add(DalFacade.DO.Product product)
         {
             XElement root = XMLTools.LoadListFromXMLElement(entity_name);
             int count = (from prod in root.Elements()
              where prod.ToIntNullable("ID").Value == product.ID
              select prod).Count();
+            
             if (count > 0)
+                // already exists
             {
                 throw new DalFacade.DO.DuplicateException("product ID already exists");
             }
             
             root.Add(create_product_xelement(product));
+            //save changes
             XMLTools.SaveListToXMLElement(root,entity_name);
             return product.ID;
         }
 
+        // get by ID number
         public DalFacade.DO.Product get(int ID)
         {
 
@@ -106,7 +111,7 @@ namespace Dal
         {
             IEnumerable<Product> products;
             XElement root = XMLTools.LoadListFromXMLElement(entity_name);
-
+            // no parameter is given
             if (func == null)
             {
                 products = (from prod in root.Elements()

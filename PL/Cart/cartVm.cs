@@ -11,6 +11,8 @@ using System.Windows.Controls;
 using System.Windows.Input;
 using static System.Net.Mime.MediaTypeNames;
 
+// to be able binding data with xaml files and windows its necessary having an instance of the struct we asking to bind.
+// all Vm classes contains as properties the data we are binding
 namespace PL.Cart
 {
     public class RelayCommand<T> : ICommand
@@ -73,7 +75,7 @@ namespace PL.Cart
             get { return cart; }
             set { Set(ref cart, value); }
         }
-
+        // one is for display and one is for data
         private string? customerName;
         public string? CustomerName
         {

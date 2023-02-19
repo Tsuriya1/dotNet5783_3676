@@ -27,6 +27,7 @@ namespace BlImplementation
         {
             if (cart.Items == null)
             {
+                // its empty
                 return cart;
             }
             cart.Items.RemoveAll(x =>
@@ -35,11 +36,12 @@ namespace BlImplementation
                 {
                     return true;
                 }
+                // not found
                 return false;
             });
             return cart;
         }
-
+        // add the product to the cart
         BO.Cart Icart.AddProduct(BO.Cart cart, int Id)
         {
             DalFacade.DO.Product product;
@@ -57,9 +59,9 @@ namespace BlImplementation
                 throw new BO.StockError("the product is out of stock");
             }
             int maxId = 0;
-            //          for (int i = 0; i < cart.Items.Count; i++)
             if (cart.Items.Any())
             {
+                // it means somthing was added so its fine
                 maxId = cart.Items.Max(x =>
                 {
                     if (!x.HasValue)
@@ -84,6 +86,7 @@ namespace BlImplementation
 
                 if (filtered.Any())
                 {
+                    // copying to a BO instance in purpose to add it later to the data
                     BO.OrderItem item = filtered.FirstOrDefault().Value; 
                     BO.OrderItem a = new BO.OrderItem();
                     a.ID = item.ID;
@@ -140,6 +143,8 @@ namespace BlImplementation
             cart.TotalPrice += ToAdd.Price;
             return cart;
         }
+
+      
         BO.Cart Icart.Update (BO.Cart cart, int ProductId, int newAmount)
         {
             DalFacade.DO.Product product;
@@ -189,7 +194,7 @@ namespace BlImplementation
 
         }
 
-
+        // checks if a given Email address by customer is valid
         bool IsValidEmail(string email)
         {
             var trimmedEmail = email.Trim();
@@ -208,6 +213,7 @@ namespace BlImplementation
                 return false;
             }
         }
+        // checks if all details are valid
         private void cartValidation(BO.Cart cart)
         {
             if (cart.CustomerName == null)
@@ -289,6 +295,7 @@ namespace BlImplementation
             DalFacade.DO.OrderItem orderItem = new DalFacade.DO.OrderItem();
             foreach (BO.OrderItem item in cart.Items)
             {
+                // if the order is valid we will add it
                 add_order_item(item, id);
             }
             

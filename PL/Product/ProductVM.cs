@@ -14,6 +14,8 @@ using DalFacade.DO;
 using System.Collections.ObjectModel;
 using System.Runtime.CompilerServices;
 
+// to be able binding data with xaml files and windows its necessary having an instance of the struct we asking to bind.
+// all Vm classes contains as properties the data we are binding
 namespace PL.Product
 {
 

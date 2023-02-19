@@ -6,6 +6,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Xml.Linq;
 
+// xml DataSource managment and its functions
 namespace Dal
 {
     internal class DalOrder : IOrder
@@ -20,23 +21,27 @@ namespace Dal
             Config.Element("OrderItemIndex")?.SetValue(order.ID + 1);
 
             XMLTools.SaveListToXMLElement(Config, "Config");
+            // add to the xml
             ordersList.Add(order);
             XMLTools.SaveListToXMLSerializer<DalFacade.DO.Order>(ordersList, entity_name);
             return order.ID;
         }
 
+        // returnes the asked order by its ID
         public DalFacade.DO.Order get(int ID)
         {
             List<DalFacade.DO.Order?> ordersList = XMLTools.LoadListFromXMLSerializer<DalFacade.DO.Order>(entity_name);
-
+            // searches the asked order by its ID
             int len = ordersList.Count;
             var orders = from DalFacade.DO.Order order1 in ordersList
                          where order1.ID == ID
                          select order1;
+            // necessary because orders is nullable
             if (orders != null && orders.Count() > 0)
             {
                 return orders.First();
             }
+            // not found
             throw new DalFacade.DO.NotFoundException("order not found");
         }
         public Order getObject(Func<Order, bool>? func)
@@ -83,6 +88,7 @@ namespace Dal
             {
                 throw new DalFacade.DO.NotFoundException("order not found");
             }
+            //deleted, saving changes:
             XMLTools.SaveListToXMLSerializer<DalFacade.DO.Order>(ordersList, entity_name);
 
         }
@@ -94,7 +100,7 @@ namespace Dal
             var orderToUpdate = from order1 in ordersList where order1.Value.ID == order.ID select order1.Value;
             if (orderToUpdate != null && orderToUpdate.Count() > 0)
             {
-
+                // swiching between the two
                 delete(order.ID);
                 ordersList.RemoveAll(x => x.HasValue && x.Value.ID == order.ID);
                 ordersList.Add(order);
